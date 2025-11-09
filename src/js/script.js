@@ -1,6 +1,5 @@
-  const idClient = '';
-  const secrecKey = '';
-
+const idClient = '';
+const secrecKey = '';
 
 const getToken = async () => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -14,4 +13,16 @@ const getToken = async () => {
 
   const data = await response.json();
   return data.access_token;
+};
+
+const getGenres = async (token) => {
+  const res = await fetch(
+    'https://api.spotify.com/v1/browse/categories?locale=en_US',
+    {
+      headers: { Authorization: 'Bearer ' + token },
+    }
+  );
+
+  const data = await res.json();
+  return data.categories.items;
 };
