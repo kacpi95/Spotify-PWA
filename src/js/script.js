@@ -35,3 +35,12 @@ const getTracksList = async (token, tracksUrl) => {
   const data = await res.json();
   return data.items;
 };
+
+const getTrack = async (token, trackUrl) => {
+  const res = await fetch(trackUrl, {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+
+  const data = await res.json();
+  return data;
+};
