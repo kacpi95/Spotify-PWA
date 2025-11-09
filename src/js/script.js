@@ -26,3 +26,12 @@ const getGenres = async (token) => {
   const data = await res.json();
   return data.categories.items;
 };
+
+const getTracksList = async (token, tracksUrl) => {
+  const res = await fetch(tracksUrl + '?limit=10', {
+    headers: { Authorization: 'Bearer ' + token },
+  });
+
+  const data = await res.json();
+  return data.items;
+};
