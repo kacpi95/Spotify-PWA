@@ -55,3 +55,30 @@ const APIController = function () {
 };
 
 const api = APIController();
+
+let tracks = [];
+
+async function fetchTopTracks() {
+  try {
+    const token = await api.getToken();
+
+    const searchResponse = await fetch(
+      `https://api.spotify.com/v1/search?q=top&type=track&limit=15`,
+      {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
+
+    const searchData = await searchResponse.json();
+    tracks = searchData.tracks.items;
+    console.log('Songs:', tracks);
+
+    if (tracks.length > 0) {
+      await api.getTrack(token, tracks[0].href);
+    }
+  } catch (error) {
+    console.error('Not found:', error);
+  }
+}
+
+fetchTopTracks();
