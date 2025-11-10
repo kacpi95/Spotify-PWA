@@ -3,7 +3,8 @@ const express = require('express');
 const fetch = require('node-fetch');
 
 const app = express();
-const PORT = 3000;
+app.use(corse());
+app.use(express.json());
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
