@@ -29,3 +29,12 @@ async function getSpotifyToken() {
   const data = await response.json();
   return data.access_token;
 }
+
+app.get('/api/token', async (req, res) => {
+  try {
+    const token = await getSpotifyToken();
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to get token' });
+  }
+});
