@@ -59,3 +59,28 @@ app.get('/api/genres', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch genres' });
   }
 });
+
+app.get('/api/top-tracks', async (req, res) => {
+  try {
+    const token = await getSpotifyToken();
+
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=top&type=track&limit=15`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+
+    const data = await response.json();
+    res.json({ tracks: data.tracks.items });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch tracks' });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Backend running at localhost 3000');
+});
