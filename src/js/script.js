@@ -1,47 +1,32 @@
 const APIController = function () {
-  const idClient = '';
-  const secrecKey = '';
-
   const getToken = async () => {
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + btoa(idClient + ':' + secrecKey),
-      },
-      body: new URLSearchParams({ grant_type: 'client_credentials' }),
-    });
-
+    const response = await fetch('http://localhost:3000/api/token');
     const data = await response.json();
-    return data.access_token;
+
+    console.log('Token backend:', data.token);
+    return data.token;
   };
 
-  const getGenres = async (token) => {
-    const res = await fetch(
-      'https://api.spotify.com/v1/browse/categories?locale=en_US',
-      {
-        headers: { Authorization: 'Bearer ' + token },
-      }
-    );
+  const getGenres = async () => {
+    const response = await fetch('http://localhost:3000/api/genres');
+    const data = await response.json();
 
-    const data = await res.json();
-    return data.categories.items;
+    console.log('Categories: ', data.categories);
+    return data.categories;
   };
 
-  const getTracksList = async (token, tracksUrl) => {
-    const res = await fetch(tracksUrl + '?limit=10', {
-      headers: { Authorization: 'Bearer ' + token },
-    });
+  const getTopTracks = async () => {
+    const response = await fetch('http://localhost:3000/api/top-tracks');
+    const data = await response.json();
 
-    const data = await res.json();
-    return data.items;
+    console.log('Top tracks', data.tracks);
+    return data.tracks;
   };
 
   const getTrack = async (token, trackUrl) => {
     const res = await fetch(trackUrl, {
       headers: { Authorization: 'Bearer ' + token },
     });
-
     const data = await res.json();
     return data;
   };
@@ -49,7 +34,7 @@ const APIController = function () {
   return {
     getToken,
     getGenres,
-    getTracksList,
+    getTopTracks,
     getTrack,
   };
 };
@@ -61,24 +46,25 @@ let tracks = [];
 async function fetchTopTracks() {
   try {
     const token = await api.getToken();
+    tracks = await api.getTopTracks();
 
-    const searchResponse = await fetch(
-      `https://api.spotify.com/v1/search?q=top&type=track&limit=15`,
-      {
-        headers: { Authorization: 'Bearer ' + token },
-      }
-    );
-
-    const searchData = await searchResponse.json();
-    tracks = searchData.tracks.items;
-    console.log('Songs:', tracks);
-
-    if (tracks.length > 0) {
-      await api.getTrack(token, tracks[0].href);
+    if (tracks.length === 0) {
+      console.warn('No songs');
+      return;
     }
+
+    const trackDetails = await api.getTrack(token, tracks[0].href);
+    console.log('Details first track ', trackDetails);
   } catch (error) {
-    console.error('Not found:', error);
+    console.error('Download error', error);
   }
 }
 
-fetchTopTracks();
+async function init() {
+  console.log('App started');
+
+  await api.getGenres();
+  await fetchTopTracks();
+}
+
+init();
