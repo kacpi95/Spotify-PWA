@@ -219,6 +219,69 @@ body {
     }
   }
 }
+.top-tracks-container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
+#top-tracks ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+#top-tracks li {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  background: $bg-color;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+
+  &:hover {
+    transform: translateY(-6px);
+    background: #242424;
+  }
+
+  img {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  h3 {
+    margin: 6px 0 2px;
+    color: $text-color;
+    font-size: 18px;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 14px;
+    color: $text-muted;
+  }
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 @media (max-width: 768px) {
   .header {
