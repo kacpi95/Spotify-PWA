@@ -63,8 +63,31 @@ async function fetchTopTracks() {
 async function init() {
   console.log('App started');
 
-  await api.getGenres();
+  const genres = await api.getGenres();
   await fetchTopTracks();
+  renderCategoryList(genres);
 }
+const category = document.querySelector('#category');
+
+const renderCategoryList = (categories) => {
+  const ulList = document.createElement('ul');
+
+  categories.forEach((el) => {
+    const li = document.createElement('li');
+    const title = document.createElement('h3');
+    const img = document.createElement('img');
+
+    title.textContent = el.name;
+    img.src = el.icons[0].url;
+    img.alt = el.name
+
+    li.appendChild(img);
+    li.appendChild(title);
+
+    ulList.appendChild(li);
+  });
+
+  category.appendChild(ulList);
+};
 
 init();
