@@ -104,6 +104,8 @@ const renderAlbumsList = (albums) => {
 };
 
 const renderTopTracksList = (tracks) => {
+  if (!tracks || !Array.isArray(tracks)) return;
+
   topTracks.innerHTML = '';
   const ulList = document.createElement('ul');
 
