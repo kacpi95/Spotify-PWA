@@ -42,6 +42,15 @@ const APIController = function () {
     return data.albums;
   };
 
+  const getAlbumTruck = async (albumId) => {
+    const response = await fetch(
+      `http://localhost:3000/api/album/${albumId}/tracks`
+    );
+    const data = await response.json();
+    console.log('Tracks album: ', data.tracks);
+    return data.track;
+  };
+
   return {
     getToken,
     getGenres,
