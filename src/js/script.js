@@ -42,7 +42,7 @@ const APIController = function () {
     return data.albums;
   };
 
-  const getAlbumTruck = async (albumId) => {
+  const getAlbumTracks = async (albumId) => {
     const response = await fetch(
       `http://localhost:3000/api/album/${albumId}/tracks`
     );
@@ -56,6 +56,8 @@ const APIController = function () {
     getGenres,
     getTopTracks,
     getTrack,
+    getAlbums,
+    getAlbumTracks,
   };
 };
 
@@ -77,27 +79,32 @@ async function init() {
   console.log('App started');
 
   token = await api.getToken();
-  const genres = await api.getGenres();
-  renderCategoryList(genres);
+  const album = await api.getAlbums();
+  renderAlbumsList(album);
 
   const topTracksData = await fetchTopTracks();
   renderTopTracksList(topTracksData);
 }
 
-const renderCategoryList = (categories) => {
+const renderAlbumsList = (albums) => {
   const ulList = document.createElement('ul');
 
-  categories.forEach((el) => {
+  albums.forEach((album) => {
     const li = document.createElement('li');
     const title = document.createElement('h3');
     const img = document.createElement('img');
 
-    title.textContent = el.name;
-    img.src = el.icons[0].url;
-    img.alt = el.name;
+    title.textContent = album.name;
+    img.src = album.images[0]?.url || '';
+    img.alt = album.name;
 
     li.appendChild(img);
     li.appendChild(title);
+
+    li.addEventListener('click', async () => {
+      const tracks = await api.getAlbumTracks(album.id);
+      renderTopTracksList(tracks);
+    });
 
     ulList.appendChild(li);
   });
@@ -106,6 +113,7 @@ const renderCategoryList = (categories) => {
 };
 
 const renderTopTracksList = (tracks) => {
+  topTracks.innerHTML = '';
   const ulList = document.createElement('ul');
 
   tracks.forEach((track) => {
