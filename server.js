@@ -81,6 +81,24 @@ app.get('/api/top-tracks', async (req, res) => {
   }
 });
 
+app.get('/api/albums', async (req, res) => {
+  try {
+    const token = await getSpotifyToken();
+    
+    const response = await fetch(
+      'https://api.spotify.com/v1/browse/new-releases?limit=20',
+      {
+        headers: { Authorization: 'Bearer ' + token },
+      }
+    );
+    const data = await response.json();
+    res.json({ albums: data.albums.items });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch albums' });
+  }
+});
+
 app.listen(3000, () => {
   console.log('Backend running at localhost 3000');
 });
