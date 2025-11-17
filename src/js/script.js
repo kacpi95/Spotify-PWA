@@ -11,14 +11,6 @@ const APIController = function () {
     return data.token;
   };
 
-  const getGenres = async () => {
-    const response = await fetch('http://localhost:3000/api/genres');
-    const data = await response.json();
-
-    console.log('Categories: ', data.categories);
-    return data.categories;
-  };
-
   const getTopTracks = async () => {
     const response = await fetch('http://localhost:3000/api/top-tracks');
     const data = await response.json();
@@ -53,7 +45,6 @@ const APIController = function () {
 
   return {
     getToken,
-    getGenres,
     getTopTracks,
     getTrack,
     getAlbums,
