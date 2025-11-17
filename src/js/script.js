@@ -45,19 +45,15 @@ const APIController = function () {
 
 const api = APIController();
 let token;
-let currentPlayingLi = null;
 let tracks = [];
 
 async function fetchTopTracks() {
   try {
-    const token = await api.getToken();
-    tracks = await api.getTopTracks();
-
-    const trackDetails = await api.getTrack(token, tracks[0].href);
-    console.log('Details first track ', trackDetails);
+    const tracks = await api.getTopTracks();
     return tracks;
   } catch (error) {
     console.error('Download error', error);
+    return [];
   }
 }
 
