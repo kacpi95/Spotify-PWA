@@ -1,5 +1,6 @@
 const category = document.querySelector('#category');
 const topTracks = document.querySelector('#top-tracks');
+const audioPlayer = document.querySelector('.player');
 
 const APIController = function () {
   const getToken = async () => {
@@ -43,7 +44,8 @@ const APIController = function () {
 };
 
 const api = APIController();
-
+let token;
+let currentPlayingLi = null;
 let tracks = [];
 
 async function fetchTopTracks() {
@@ -62,6 +64,7 @@ async function fetchTopTracks() {
 async function init() {
   console.log('App started');
 
+  token = await api.getToken();
   const genres = await api.getGenres();
   renderCategoryList(genres);
 
@@ -107,6 +110,19 @@ const renderTopTracksList = (tracks) => {
     li.appendChild(img);
     li.appendChild(title);
     li.appendChild(artist);
+
+    li.addEventListener('click', () => {
+      let iframe = audioPlayer.querySelector('iframe');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.width = '500';
+        iframe.height = '80';
+        iframe.frameBorder = '0';
+        iframe.allow = 'encrypted-media';
+        audioPlayer.appendChild(iframe);
+      }
+      iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+    });
 
     ulList.appendChild(li);
   });
