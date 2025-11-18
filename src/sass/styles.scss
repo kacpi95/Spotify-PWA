@@ -463,6 +463,27 @@ body {
   #search .search-header input {
     padding: 0.8rem 2.5rem 0.8rem 1rem;
   }
+  .track-content {
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: 95%;
+    max-width: 400px;
+  }
+
+  .track-content img {
+    width: 100%;
+    height: auto;
+  }
+
+  .track-text-content {
+    padding: 24px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .track-content h2 {
+    font-size: 1.8rem;
+  }
 }
 @media (max-width: 480px) {
   .player {

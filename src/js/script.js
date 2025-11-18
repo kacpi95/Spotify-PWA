@@ -179,7 +179,7 @@ const renderDescriptionTrack = (track) => {
   title.textContent = track.name;
   artist.textContent = track.artists.map((a) => a.name).join(', ');
   album.textContent = `Album: ${track.album.name}`;
-  release.textContent = `Data wydania: ${track.album.release_date}`;
+  release.textContent = `Release date: ${track.album.release_date}`;
 
   trackContent.appendChild(iconClose);
   trackContent.appendChild(img);
