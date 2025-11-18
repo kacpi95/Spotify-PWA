@@ -213,6 +213,7 @@ body {
 }
 
 #top-tracks li {
+  position: relative;
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -245,6 +246,21 @@ body {
   font-weight: 300;
   font-size: 14px;
   color: #bbb7b7;
+}
+#top-tracks li .play-icon {
+  position: absolute;
+  top: 100px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: auto;
+}
+#top-tracks li:hover .play-icon {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .content {
