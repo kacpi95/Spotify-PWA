@@ -122,7 +122,7 @@ const renderTopTracksList = (tracks) => {
     img.alt = track.name;
     icon.src = './images/play-icon.png';
     icon.alt = 'play-icon';
-    icon.classList.add('play-icon')
+    icon.classList.add('play-icon');
 
     li.appendChild(img);
     li.appendChild(title);
@@ -141,11 +141,67 @@ const renderTopTracksList = (tracks) => {
       }
       iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
     });
+    img.addEventListener('click', () => {
+      renderDescriptionTrack(track);
+    });
 
     ulList.appendChild(li);
   });
 
   topTracks.appendChild(ulList);
+};
+
+const renderDescriptionTrack = (track) => {
+  const descriptionContainer = document.querySelector('#description-track');
+  const trackContent = document.querySelector('.track-content');
+
+  trackContent.innerHTML = '';
+
+  trackContent.style.setProperty(
+    '--bg-image',
+    `url(${track.album.images[0].url})`
+  );
+
+  const iconClose = document.createElement('span');
+  const img = document.createElement('img');
+  const title = document.createElement('h2');
+  const artist = document.createElement('h4');
+  const album = document.createElement('p');
+  const release = document.createElement('p');
+
+  const textContainer = document.createElement('div');
+  textContainer.classList.add('track-text-content');
+
+  iconClose.textContent = '×';
+  iconClose.classList.add('close-description');
+
+  img.src = track.album.images[0].url;
+  title.textContent = track.name;
+  artist.textContent = track.artists.map((a) => a.name).join(', ');
+  album.textContent = `Album: ${track.album.name}`;
+  release.textContent = `Data wydania: ${track.album.release_date}`;
+
+  trackContent.appendChild(iconClose);
+  trackContent.appendChild(img);
+
+  textContainer.appendChild(title);
+  textContainer.appendChild(artist);
+  textContainer.appendChild(album);
+  textContainer.appendChild(release);
+
+  trackContent.appendChild(textContainer);
+
+  descriptionContainer.style.display = 'flex';
+
+  iconClose.addEventListener('click', () => {
+    descriptionContainer.style.display = 'none';
+  });
+
+  descriptionContainer.addEventListener('click', (e) => {
+    if (e.target === descriptionContainer) {
+      descriptionContainer.style.display = 'none';
+    }
+  });
 };
 
 init();
