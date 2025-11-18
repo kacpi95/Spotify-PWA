@@ -40,7 +40,7 @@ const APIController = function () {
     );
     const data = await response.json();
     console.log('Tracks album: ', data.tracks);
-    return data.track;
+    return data.tracks;
   };
 
   return {
@@ -95,6 +95,7 @@ const renderAlbumsList = (albums) => {
     li.addEventListener('click', async () => {
       const tracks = await api.getAlbumTracks(album.id);
       renderTopTracksList(tracks);
+      renderAlbumPopup({ ...album, tracks });
     });
 
     ulList.appendChild(li);
@@ -118,8 +119,8 @@ const renderTopTracksList = (tracks) => {
 
     title.textContent = track.name;
     artist.textContent = track.artists.map((a) => a.name).join(', ');
-    img.src = track.album.images[0].url;
-    img.alt = track.name;
+    img.src = track.album?.images?.[0]?.url;
+    img.alt = track.name || 'Unknown track';
     icon.src = './images/play-icon.png';
     icon.alt = 'play-icon';
     icon.classList.add('play-icon');
@@ -202,6 +203,47 @@ const renderDescriptionTrack = (track) => {
       descriptionContainer.style.display = 'none';
     }
   });
+};
+
+const renderAlbumPopup = async (album) => {
+  const albumPopup = document.querySelector('#album-popup');
+  const albumContent = document.querySelector('.album-content');
+
+  albumContent.innerHTML = '';
+
+  const closeIcon = document.createElement('span');
+  closeIcon.textContent = '×';
+  closeIcon.classList.add('close-album');
+
+  const img = document.createElement('img');
+  img.src = album.images[0]?.url || '';
+  img.alt = album.name;
+
+  const title = document.createElement('h2');
+  title.textContent = album.name;
+
+  const artist = document.createElement('h4');
+  artist.textContent = album.artists.map((a) => a.name).join(', ');
+
+  closeIcon.addEventListener('click', () => {
+    albumPopup.style.display = 'none';
+  });
+  albumPopup.addEventListener('click', (e) => {
+    if (e.target === albumPopup) albumPopup.style.display = 'none';
+  });
+
+  albumContent.appendChild(closeIcon);
+  albumContent.appendChild(img);
+  albumContent.appendChild(title);
+  albumContent.appendChild(artist);
+
+  try {
+    const tracks = await api.getAlbumTracks(album.id);
+  } catch (err) {
+    console.error('Error fetching album tracks:', err);
+  }
+
+  albumPopup.style.display = 'flex';
 };
 
 init();
