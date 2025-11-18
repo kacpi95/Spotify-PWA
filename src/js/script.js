@@ -114,17 +114,22 @@ const renderTopTracksList = (tracks) => {
     const title = document.createElement('h3');
     const artist = document.createElement('h5');
     const img = document.createElement('img');
+    const icon = document.createElement('img');
 
     title.textContent = track.name;
     artist.textContent = track.artists.map((a) => a.name).join(', ');
     img.src = track.album.images[0].url;
     img.alt = track.name;
+    icon.src = './images/play-icon.png';
+    icon.alt = 'play-icon';
+    icon.classList.add('play-icon')
 
     li.appendChild(img);
     li.appendChild(title);
     li.appendChild(artist);
+    li.appendChild(icon);
 
-    li.addEventListener('click', () => {
+    icon.addEventListener('click', () => {
       let iframe = audioPlayer.querySelector('iframe');
       if (!iframe) {
         iframe = document.createElement('iframe');
