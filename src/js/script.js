@@ -239,6 +239,38 @@ const renderAlbumPopup = async (album) => {
 
   try {
     const tracks = await api.getAlbumTracks(album.id);
+    if (!tracks || !Array.isArray(tracks)) return;
+
+    const ulList = document.createElement('ul');
+    tracks.forEach((track, id) => {
+      const li = document.createElement('li');
+      li.textContent = `${id + 1}. ${track.name}`;
+
+      const playBtn = document.createElement('img');
+      playBtn.src = './images/play-icon.png';
+      playBtn.alt = 'play icon';
+      playBtn.style.width = '24px';
+      playBtn.style.height = '24px';
+
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        let iframe = audioPlayer.querySelector('iframe');
+        if (!iframe) {
+          iframe = document.createElement('iframe');
+          iframe.width = '500';
+          iframe.height = '80';
+          iframe.frameBorder = '0';
+          iframe.allow = 'encrypted-media';
+          audioPlayer.appendChild(iframe);
+        }
+        iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+      });
+
+      li.appendChild(playBtn);
+      ulList.appendChild(li);
+    });
+
+    albumContent.appendChild(ulList);
   } catch (err) {
     console.error('Error fetching album tracks:', err);
   }
