@@ -166,7 +166,8 @@ body {
   font-size: 1rem;
   color: #fff;
 }
-#search .search-albums-container {
+#search .search-albums-container,
+#search .search-tracks-container {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;

@@ -300,6 +300,12 @@ searchInput.addEventListener('input', (e) => {
       album.artists.some((artist) => artist.name.toLowerCase().includes(query))
   );
 
+  const filteredTracks = tracks.filter(
+    (track) =>
+      track.name.toLowerCase().includes(query) ||
+      track.artists.some((artist) => artist.name.toLowerCase().includes(query))
+  );
+
   searchResults.innerHTML = '';
 
   if (filteredAlbums.length > 0) {
@@ -331,6 +337,37 @@ searchInput.addEventListener('input', (e) => {
     });
 
     searchResults.appendChild(albumsContainer);
+  }
+
+  if (filteredTracks.length > 0) {
+    const tracksHeader = document.createElement('h3');
+    tracksHeader.textContent = 'Tracks: ';
+    tracksHeader.classList.add('search-section-track');
+    searchResults.appendChild(tracksHeader);
+
+    const tracksContainer = document.createElement('div');
+    tracksContainer.classList.add('search-tracks-container');
+
+    filteredTracks.forEach((track) => {
+      const div = document.createElement('div');
+      div.classList.add('search-track');
+
+      const img = document.createElement('img');
+      img.src = track.album.images[0]?.url || '';
+      img.alt = track.name;
+
+      const title = document.createElement('span');
+      title.textContent = track.name;
+
+      div.appendChild(img);
+      div.appendChild(title);
+
+      div.addEventListener('click', () => renderDescriptionTrack(track));
+
+      tracksContainer.appendChild(div);
+    });
+
+    searchResults.appendChild(tracksContainer);
   }
 });
 
