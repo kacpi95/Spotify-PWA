@@ -572,6 +572,20 @@ body {
   transform: scale(1.15);
 }
 
+.album-content ul::-webkit-scrollbar {
+  width: 8px;
+}
+.album-content ul::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.album-content ul::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+.album-content ul::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
