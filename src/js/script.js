@@ -93,9 +93,10 @@ const renderAlbumsList = (albums) => {
     li.appendChild(title);
 
     li.addEventListener('click', async () => {
-      const tracks = await api.getAlbumTracks(album.id);
-      renderTopTracksList(tracks);
-      renderAlbumPopup({ ...album, tracks });
+      // const tracks = await api.getAlbumTracks(album.id);
+      // renderTopTracksList(tracks);
+      // renderAlbumPopup({ ...album, tracks });
+      renderAlbumPopup(album);
     });
 
     ulList.appendChild(li);
@@ -232,9 +233,6 @@ const renderAlbumPopup = async (album) => {
 
   closeIcon.addEventListener('click', () => {
     albumPopup.style.display = 'none';
-  });
-  albumPopup.addEventListener('click', (e) => {
-    if (e.target === albumPopup) albumPopup.style.display = 'none';
   });
 
   albumContent.appendChild(closeIcon);
