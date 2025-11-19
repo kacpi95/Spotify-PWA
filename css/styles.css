@@ -661,6 +661,19 @@ body {
     width: 24px;
     height: 24px;
   }
+  .search-album,
+  .search-track {
+    width: 80px;
+  }
+  .search-album img,
+  .search-track img {
+    width: 60px;
+    height: 60px;
+  }
+  .search-album span,
+  .search-track span {
+    font-size: 0.7rem;
+  }
 }
 @media (max-width: 480px) {
   .player audio {
