@@ -2,6 +2,7 @@ const category = document.querySelector('#category');
 const topTracks = document.querySelector('#top-tracks');
 const audioPlayer = document.querySelector('.player');
 const searchInput = document.querySelector('#searchInput');
+const searchResults = document.querySelector('#searchResults');
 
 let albums = [];
 let tracks = [];
@@ -288,12 +289,49 @@ const renderAlbumPopup = async (album) => {
 searchInput.addEventListener('input', (e) => {
   const query = e.target.value.toLowerCase();
 
+  if (!query) {
+    searchResults.innerHTML = '';
+    return;
+  }
+
   const filteredAlbums = albums.filter(
     (album) =>
       album.name.toLowerCase().includes(query) ||
       album.artists.some((artist) => artist.name.toLowerCase().includes(query))
   );
-  renderAlbumsList(filteredAlbums);
+
+  searchResults.innerHTML = '';
+
+  if (filteredAlbums.length > 0) {
+    const albumsHeader = document.createElement('h3');
+    albumsHeader.textContent = 'Albums';
+    albumsHeader.classList.add('search-section-header');
+    searchResults.appendChild(albumsHeader);
+
+    const albumsContainer = document.createElement('div');
+    albumsContainer.classList.add('search-albums-container');
+
+    filteredAlbums.forEach((album) => {
+      const div = document.createElement('div');
+      div.classList.add('search-album');
+
+      const img = document.createElement('img');
+      img.src = album.images[0]?.url || '';
+      img.alt = album.name;
+
+      const title = document.createElement('span');
+      title.textContent = album.name;
+
+      div.appendChild(img);
+      div.appendChild(title);
+
+      div.addEventListener('click', () => renderAlbumPopup(album));
+
+      albumsContainer.appendChild(div);
+    });
+
+    searchResults.appendChild(albumsContainer);
+  }
 });
 
 init();
