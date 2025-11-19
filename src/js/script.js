@@ -285,4 +285,15 @@ const renderAlbumPopup = async (album) => {
   albumPopup.style.display = 'flex';
 };
 
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+
+  const filteredAlbums = albums.filter(
+    (album) =>
+      album.name.toLowerCase().includes(query) ||
+      album.artists.some((artist) => artist.name.toLowerCase().includes(query))
+  );
+  renderAlbumsList(filteredAlbums);
+});
+
 init();
