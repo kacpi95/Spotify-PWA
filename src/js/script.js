@@ -1,6 +1,10 @@
 const category = document.querySelector('#category');
 const topTracks = document.querySelector('#top-tracks');
 const audioPlayer = document.querySelector('.player');
+const searchInput = document.querySelector('#searchInput');
+
+let albums = [];
+let tracks = [];
 
 const APIController = function () {
   const getToken = async () => {
@@ -54,7 +58,6 @@ const APIController = function () {
 
 const api = APIController();
 let token;
-let tracks = [];
 
 async function fetchTopTracks() {
   try {
@@ -70,11 +73,12 @@ async function init() {
   console.log('App started');
 
   token = await api.getToken();
-  const album = await api.getAlbums();
-  renderAlbumsList(album);
 
-  const topTracksData = await fetchTopTracks();
-  renderTopTracksList(topTracksData);
+  albums = await api.getAlbums();
+  renderAlbumsList(albums);
+
+  tracks = await fetchTopTracks();
+  renderTopTracksList(tracks);
 }
 
 const renderAlbumsList = (albums) => {
