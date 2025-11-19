@@ -211,6 +211,11 @@ const renderAlbumPopup = async (album) => {
 
   albumContent.innerHTML = '';
 
+  albumContent.style.setProperty(
+    '--bg-image',
+    `url(${album.images[0]?.url || ''})`
+  );
+
   const closeIcon = document.createElement('span');
   closeIcon.textContent = '×';
   closeIcon.classList.add('close-album');

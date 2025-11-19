@@ -432,6 +432,145 @@ body {
   }
 }
 
+.album-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+}
+
+.album-content {
+  position: relative;
+  padding: 0;
+  width: 90%;
+  max-width: 1400px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  overflow: hidden;
+  color: $text-color;
+  animation: albumPopupIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.album-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(50px) brightness(0.4);
+  transform: scale(1.2);
+  z-index: -1;
+}
+
+@keyframes albumPopupIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.close-album {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  color: $text-color;
+  background: rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+.close-album:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1) rotate(90deg);
+}
+
+.album-content > img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  margin-top: 48px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.album-content h2 {
+  margin: 0 0 8px;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.album-content h4 {
+  margin: 0 0 24px;
+  padding: 0 24px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-align: center;
+  color: $text-muted;
+}
+
+.album-content ul {
+  max-height: 400px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.album-content ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  color: $text-muted;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.album-content ul li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.album-content ul li img {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.album-content ul li img:hover {
+  transform: scale(1.15);
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
