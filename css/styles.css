@@ -123,22 +123,53 @@ body {
 #search .search-header i:hover {
   color: #1acc58;
 }
-#search .search-results {
+#search #searchResults {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-direction: column;
+}
+#search .search-album,
+#search .search-track {
+  width: 100px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-#search .search-results .song {
-  padding: 1rem;
-  border-radius: 0.8rem;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
   cursor: pointer;
-  color: #fff;
-  background-color: #0a0a0a;
-  transition: transform 0.2s, background-color 0.2s;
+  background: #181818;
+  transition: transform 0.2s ease;
 }
-#search .search-results .song:hover {
-  transform: scale(1.02);
-  background-color: #181818;
+#search .search-album img,
+#search .search-track img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 6px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 6px;
+}
+#search .search-album span,
+#search .search-track span {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #fff;
+}
+#search .search-album:hover,
+#search .search-track:hover {
+  transform: scale(1.05);
+}
+#search .search-section-header {
+  margin-bottom: 6px;
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #fff;
+}
+#search .search-albums-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .category-container {
