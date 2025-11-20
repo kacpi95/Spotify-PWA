@@ -350,6 +350,74 @@ body {
      object-fit: cover;
 }
 
+.track-top-controls {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.track-top-controls > * {
+  pointer-events: auto;
+}
+
+.track-top-controls .btn-save {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.track-top-controls .btn-save:hover {
+  background: rgba(30, 215, 96, 0.8);
+  transform: scale(1.1);
+}
+
+.track-top-controls .btn-save img {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.close-description {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: 28px;
+  border-radius: 50%;
+  font-weight: 300;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-description:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
 .track-text-content {
   padding: 32px 32px 32px 0;
   display: flex;
@@ -376,7 +444,7 @@ body {
   margin: 0 0 24px;
   font-size: 1.2rem;
   font-weight: 400;
-  color: #bbb7b7;
+  color: rgba(255, 255, 255, 0.7);
   animation-delay: 0.3s;
 }
 
@@ -384,32 +452,8 @@ body {
   margin: 4px 0;
   font-size: 1rem;
   font-weight: 300;
-  color: #bbb7b7;
+  color: rgba(255, 255, 255, 0.7);
   animation-delay: 0.4s;
-}
-
-.close-description {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  border-radius: 50%;
-  font-weight: 300;
-  cursor: pointer;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.3);
-  transition: background 0.2s ease, transform 0.2s ease;
-  z-index: 10;
-}
-
-.close-description:hover {
-  background: rgba(0, 0, 0, 0.6);
-  transform: scale(1.1);
 }
 
 @keyframes modal-enter {
