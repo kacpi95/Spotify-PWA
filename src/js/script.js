@@ -159,6 +159,13 @@ function toggleSaveAlbum(album) {
   loadLibrary();
 }
 
+const albumPopupEl = document.querySelector('#album-popup');
+if (albumPopupEl) {
+  albumPopupEl.addEventListener('click', (e) => {
+    if (e.target === albumPopupEl) albumPopupEl.style.display = 'none';
+  });
+}
+
 const renderAlbumsList = (albums) => {
   const ulList = document.createElement('ul');
 
