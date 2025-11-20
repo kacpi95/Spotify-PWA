@@ -222,9 +222,44 @@ const renderAlbumPopup = async (album) => {
     `url(${album.images[0]?.url || ''})`
   );
 
+  const topControls = document.createElement('div');
+  topControls.classList.add('album-top-controls');
+
   const closeIcon = document.createElement('span');
   closeIcon.textContent = '×';
   closeIcon.classList.add('close-album');
+
+  const saveBtn = document.createElement('button');
+  saveBtn.classList.add('btn-save');
+
+  const saveIcon = document.createElement('img');
+  saveIcon.width = 20;
+  saveIcon.height = 20;
+  const isSaved = (JSON.parse(localStorage.getItem('savedAlbums')) || []).some(
+    (a) => a.id === album.id
+  );
+  saveIcon.src = isSaved ? './images/check-icon.png' : './images/plus-icon.png';
+  saveBtn.appendChild(saveIcon);
+
+  saveBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSaveAlbum(album);
+
+    const nowSaved = (
+      JSON.parse(localStorage.getItem('savedAlbums')) || []
+    ).some((a) => a.id === album.id);
+    saveIcon.src = nowSaved
+      ? './images/check-icon.png'
+      : './images/plus-icon.png';
+  });
+
+  closeIcon.addEventListener('click', () => {
+    albumPopup.style.display = 'none';
+  });
+
+  topControls.appendChild(saveBtn);
+  topControls.appendChild(closeIcon);
+  albumContent.appendChild(topControls);
 
   const img = document.createElement('img');
   img.src = album.images[0]?.url || '';
@@ -236,11 +271,6 @@ const renderAlbumPopup = async (album) => {
   const artist = document.createElement('h4');
   artist.textContent = album.artists.map((a) => a.name).join(', ');
 
-  closeIcon.addEventListener('click', () => {
-    albumPopup.style.display = 'none';
-  });
-
-  albumContent.appendChild(closeIcon);
   albumContent.appendChild(img);
   albumContent.appendChild(title);
   albumContent.appendChild(artist);
