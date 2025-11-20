@@ -169,7 +169,46 @@ const renderDescriptionTrack = (track) => {
     `url(${track.album.images[0].url})`
   );
 
+  const topControls = document.createElement('div');
+  topControls.classList.add('track-top-controls');
+
+  const saveBtn = document.createElement('button');
+  saveBtn.classList.add('btn-save');
+
+  const saveIcon = document.createElement('img');
+  saveIcon.width = 20;
+  saveIcon.height = 20;
+
+  const isSaved = (JSON.parse(localStorage.getItem('savedTracks')) || []).some(
+    (t) => t.id === track.id
+  );
+  saveIcon.src = isSaved ? './images/check-icon.png' : './images/plus-icon.png';
+  saveBtn.appendChild(saveIcon);
+
+  saveBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSaveTrack(track);
+
+    const nowSaved = (
+      JSON.parse(localStorage.getItem('savedTracks')) || []
+    ).some((t) => t.id === track.id);
+    saveIcon.src = nowSaved
+      ? './images/check-icon.png'
+      : './images/plus-icon.png';
+  });
+
   const iconClose = document.createElement('span');
+  iconClose.textContent = '×';
+  iconClose.classList.add('close-description');
+
+  iconClose.addEventListener('click', () => {
+    descriptionContainer.style.display = 'none';
+  });
+
+  topControls.appendChild(saveBtn);
+  topControls.appendChild(iconClose);
+  trackContent.appendChild(topControls);
+
   const img = document.createElement('img');
   const title = document.createElement('h2');
   const artist = document.createElement('h4');
@@ -179,16 +218,12 @@ const renderDescriptionTrack = (track) => {
   const textContainer = document.createElement('div');
   textContainer.classList.add('track-text-content');
 
-  iconClose.textContent = '×';
-  iconClose.classList.add('close-description');
-
   img.src = track.album.images[0].url;
   title.textContent = track.name;
   artist.textContent = track.artists.map((a) => a.name).join(', ');
   album.textContent = `Album: ${track.album.name}`;
   release.textContent = `Release date: ${track.album.release_date}`;
 
-  trackContent.appendChild(iconClose);
   trackContent.appendChild(img);
 
   textContainer.appendChild(title);
@@ -199,10 +234,6 @@ const renderDescriptionTrack = (track) => {
   trackContent.appendChild(textContainer);
 
   descriptionContainer.style.display = 'flex';
-
-  iconClose.addEventListener('click', () => {
-    descriptionContainer.style.display = 'none';
-  });
 
   descriptionContainer.addEventListener('click', (e) => {
     if (e.target === descriptionContainer) {
