@@ -117,6 +117,26 @@ function loadLibrary() {
     });
   }
 }
+function toggleLikeTrack(track) {
+  const key = 'likedSongs';
+  let liked = JSON.parse(localStorage.getItem(key)) || [];
+  const exists = liked.some((t) => t.id === track.id);
+
+  if (exists) {
+    liked = liked.filter((t) => t.id !== track.id);
+  } else {
+    const toStore = {
+      id: track.id,
+      name: track.name,
+      artists: track.artists,
+      album: track.album,
+    };
+    liked.push(toStore);
+  }
+
+  localStorage.setItem(key, JSON.stringify(liked));
+  loadLibrary();
+}
 
 const renderAlbumsList = (albums) => {
   const ulList = document.createElement('ul');
