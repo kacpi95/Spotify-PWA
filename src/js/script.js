@@ -74,12 +74,19 @@ async function init() {
   console.log('App started');
 
   token = await api.getToken();
-
   albums = await api.getAlbums();
-  renderAlbumsList(albums);
+
+  if (category) {
+    renderAlbumsList(albums);
+  }
 
   tracks = await fetchTopTracks();
-  renderTopTracksList(tracks);
+
+  if (topTracks) {
+    renderTopTracksList(tracks);
+  }
+
+  loadLibrary();
 }
 
 function loadLibrary() {
@@ -117,6 +124,7 @@ function loadLibrary() {
     });
   }
 }
+
 function toggleLikeTrack(track) {
   const key = 'likedSongs';
   let liked = JSON.parse(localStorage.getItem(key)) || [];
@@ -250,7 +258,7 @@ const renderDescriptionTrack = (track) => {
 
   trackContent.style.setProperty(
     '--bg-image',
-    `url(${track.album.images[0].url})`
+    `url(${track.album?.images?.[0]?.url || ''})`
   );
 
   const topControls = document.createElement('div');
@@ -263,7 +271,7 @@ const renderDescriptionTrack = (track) => {
   saveIcon.width = 20;
   saveIcon.height = 20;
 
-  const isSaved = (JSON.parse(localStorage.getItem('savedTracks')) || []).some(
+  const isSaved = (JSON.parse(localStorage.getItem('likedSongs')) || []).some(
     (t) => t.id === track.id
   );
   saveIcon.src = isSaved ? './images/check-icon.png' : './images/plus-icon.png';
@@ -271,10 +279,10 @@ const renderDescriptionTrack = (track) => {
 
   saveBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    toggleSaveTrack(track);
+    toggleLikeTrack(track);
 
     const nowSaved = (
-      JSON.parse(localStorage.getItem('savedTracks')) || []
+      JSON.parse(localStorage.getItem('likedSongs')) || []
     ).some((t) => t.id === track.id);
     saveIcon.src = nowSaved
       ? './images/check-icon.png'
@@ -302,11 +310,13 @@ const renderDescriptionTrack = (track) => {
   const textContainer = document.createElement('div');
   textContainer.classList.add('track-text-content');
 
-  img.src = track.album.images[0].url;
+  img.src = track.album?.images?.[0]?.url || '';
   title.textContent = track.name;
   artist.textContent = track.artists.map((a) => a.name).join(', ');
-  album.textContent = `Album: ${track.album.name}`;
-  release.textContent = `Release date: ${track.album.release_date}`;
+  album.textContent = `Album: ${track.album?.name || 'Unknown'}`;
+  release.textContent = `Release date: ${
+    track.album?.release_date || 'Unknown'
+  }`;
 
   trackContent.appendChild(img);
 
