@@ -138,6 +138,27 @@ function toggleLikeTrack(track) {
   loadLibrary();
 }
 
+function toggleSaveAlbum(album) {
+  const key = 'savedAlbums';
+  let saved = JSON.parse(localStorage.getItem(key)) || [];
+  const exists = saved.some((a) => a.id === album.id);
+
+  if (exists) {
+    saved = saved.filter((a) => a.id !== album.id);
+  } else {
+    const toStore = {
+      id: album.id,
+      name: album.name,
+      images: album.images,
+      artists: album.artists,
+    };
+    saved.push(toStore);
+  }
+
+  localStorage.setItem(key, JSON.stringify(saved));
+  loadLibrary();
+}
+
 const renderAlbumsList = (albums) => {
   const ulList = document.createElement('ul');
 
