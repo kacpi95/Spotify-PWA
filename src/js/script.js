@@ -441,89 +441,95 @@ const renderAlbumPopup = async (album) => {
   albumPopup.style.display = 'flex';
 };
 
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase();
+if (searchInput && searchResults) {
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
 
-  if (!query) {
+    if (!query) {
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    const filteredAlbums = albums.filter(
+      (album) =>
+        album.name.toLowerCase().includes(query) ||
+        album.artists.some((artist) =>
+          artist.name.toLowerCase().includes(query)
+        )
+    );
+
+    const filteredTracks = tracks.filter(
+      (track) =>
+        track.name.toLowerCase().includes(query) ||
+        track.artists.some((artist) =>
+          artist.name.toLowerCase().includes(query)
+        )
+    );
+
     searchResults.innerHTML = '';
-    return;
-  }
 
-  const filteredAlbums = albums.filter(
-    (album) =>
-      album.name.toLowerCase().includes(query) ||
-      album.artists.some((artist) => artist.name.toLowerCase().includes(query))
-  );
+    if (filteredAlbums.length > 0) {
+      const albumsHeader = document.createElement('h3');
+      albumsHeader.textContent = 'Albums';
+      albumsHeader.classList.add('search-section-header');
+      searchResults.appendChild(albumsHeader);
 
-  const filteredTracks = tracks.filter(
-    (track) =>
-      track.name.toLowerCase().includes(query) ||
-      track.artists.some((artist) => artist.name.toLowerCase().includes(query))
-  );
+      const albumsContainer = document.createElement('div');
+      albumsContainer.classList.add('search-albums-container');
 
-  searchResults.innerHTML = '';
+      filteredAlbums.forEach((album) => {
+        const div = document.createElement('div');
+        div.classList.add('search-album');
 
-  if (filteredAlbums.length > 0) {
-    const albumsHeader = document.createElement('h3');
-    albumsHeader.textContent = 'Albums';
-    albumsHeader.classList.add('search-section-header');
-    searchResults.appendChild(albumsHeader);
+        const img = document.createElement('img');
+        img.src = album.images[0]?.url || '';
+        img.alt = album.name;
 
-    const albumsContainer = document.createElement('div');
-    albumsContainer.classList.add('search-albums-container');
+        const title = document.createElement('span');
+        title.textContent = album.name;
 
-    filteredAlbums.forEach((album) => {
-      const div = document.createElement('div');
-      div.classList.add('search-album');
+        div.appendChild(img);
+        div.appendChild(title);
 
-      const img = document.createElement('img');
-      img.src = album.images[0]?.url || '';
-      img.alt = album.name;
+        div.addEventListener('click', () => renderAlbumPopup(album));
 
-      const title = document.createElement('span');
-      title.textContent = album.name;
+        albumsContainer.appendChild(div);
+      });
 
-      div.appendChild(img);
-      div.appendChild(title);
+      searchResults.appendChild(albumsContainer);
+    }
 
-      div.addEventListener('click', () => renderAlbumPopup(album));
+    if (filteredTracks.length > 0) {
+      const tracksHeader = document.createElement('h3');
+      tracksHeader.textContent = 'Tracks: ';
+      tracksHeader.classList.add('search-section-track');
+      searchResults.appendChild(tracksHeader);
 
-      albumsContainer.appendChild(div);
-    });
+      const tracksContainer = document.createElement('div');
+      tracksContainer.classList.add('search-tracks-container');
 
-    searchResults.appendChild(albumsContainer);
-  }
+      filteredTracks.forEach((track) => {
+        const div = document.createElement('div');
+        div.classList.add('search-track');
 
-  if (filteredTracks.length > 0) {
-    const tracksHeader = document.createElement('h3');
-    tracksHeader.textContent = 'Tracks: ';
-    tracksHeader.classList.add('search-section-track');
-    searchResults.appendChild(tracksHeader);
+        const img = document.createElement('img');
+        img.src = track.album.images[0]?.url || '';
+        img.alt = track.name;
 
-    const tracksContainer = document.createElement('div');
-    tracksContainer.classList.add('search-tracks-container');
+        const title = document.createElement('span');
+        title.textContent = track.name;
 
-    filteredTracks.forEach((track) => {
-      const div = document.createElement('div');
-      div.classList.add('search-track');
+        div.appendChild(img);
+        div.appendChild(title);
 
-      const img = document.createElement('img');
-      img.src = track.album.images[0]?.url || '';
-      img.alt = track.name;
+        div.addEventListener('click', () => renderDescriptionTrack(track));
 
-      const title = document.createElement('span');
-      title.textContent = track.name;
+        tracksContainer.appendChild(div);
+      });
 
-      div.appendChild(img);
-      div.appendChild(title);
-
-      div.addEventListener('click', () => renderDescriptionTrack(track));
-
-      tracksContainer.appendChild(div);
-    });
-
-    searchResults.appendChild(tracksContainer);
-  }
-});
+      searchResults.appendChild(tracksContainer);
+    }
+  });
+}
 
 init();
