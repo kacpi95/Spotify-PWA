@@ -82,6 +82,42 @@ async function init() {
   renderTopTracksList(tracks);
 }
 
+function loadLibrary() {
+  const likedSongsContainer = document.getElementById('likedSongsContainer');
+  const savedAlbumsContainer = document.getElementById('savedAlbumsContainer');
+
+  const likedSongs = JSON.parse(localStorage.getItem('likedSongs')) || [];
+  const savedAlbums = JSON.parse(localStorage.getItem('savedAlbums')) || [];
+
+  if (likedSongsContainer) {
+    likedSongsContainer.innerHTML = '';
+    likedSongs.forEach((track) => {
+      const div = document.createElement('div');
+      div.classList.add('library-item');
+      div.innerHTML = `
+        <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
+        <span>${track.name}</span>
+      `;
+      div.addEventListener('click', () => renderDescriptionTrack(track));
+      likedSongsContainer.appendChild(div);
+    });
+  }
+
+  if (savedAlbumsContainer) {
+    savedAlbumsContainer.innerHTML = '';
+    savedAlbums.forEach((album) => {
+      const div = document.createElement('div');
+      div.classList.add('library-item');
+      div.innerHTML = `
+        <img src="${album.images?.[0]?.url || ''}" alt="${album.name}" />
+        <span>${album.name}</span>
+      `;
+      div.addEventListener('click', () => renderAlbumPopup(album));
+      savedAlbumsContainer.appendChild(div);
+    });
+  }
+}
+
 const renderAlbumsList = (albums) => {
   const ulList = document.createElement('ul');
 
