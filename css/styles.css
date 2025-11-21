@@ -694,14 +694,14 @@ body {
     width: 8vw;
     min-width: 80px;
   }
-  .nav ul li {
+  .header .nav ul li {
     flex-direction: column;
     text-align: center;
   }
-  .desktop img {
+  .header .desktop img {
     display: none;
   }
-  .mobile {
+  .header .mobile {
     display: block;
     margin: 0 auto;
     width: 30px;
@@ -728,13 +728,13 @@ body {
     width: 100%;
     height: auto;
   }
+  .track-content h2 {
+    font-size: 1.8rem;
+  }
   .track-text-content {
     padding: 24px;
     text-align: center;
     align-items: center;
-  }
-  .track-content h2 {
-    font-size: 1.8rem;
   }
 }
 @media (max-width: 600px) {
@@ -760,17 +760,17 @@ body {
     width: 24px;
     height: 24px;
   }
-  .search-album,
-  .search-track {
+  #search .search-album,
+  #search .search-track {
     width: 80px;
   }
-  .search-album img,
-  .search-track img {
+  #search .search-album img,
+  #search .search-track img {
     width: 60px;
     height: 60px;
   }
-  .search-album span,
-  .search-track span {
+  #search .search-album span,
+  #search .search-track span {
     font-size: 0.7rem;
   }
 }
