@@ -1,0 +1,86 @@
+#search {
+  .search-header {
+    position: relative;
+    margin: $spacing-lg;
+    border-radius: 11px;
+    border: 1px solid $text-muted;
+
+    input {
+      width: 100%;
+      padding: $spacing-md;
+      border-radius: 1.5rem;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      color: $text-color;
+      background-color: $bg-color-second;
+    }
+
+    i {
+      position: absolute;
+      right: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: $text-muted;
+      cursor: pointer;
+      transition: color $transition-normal;
+
+      &:hover {
+        color: $hover-color;
+      }
+    }
+  }
+
+  #searchResults {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    flex-direction: column;
+  }
+
+  .search-album,
+  .search-track {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    background: $bg-color-second;
+    transition: transform $transition-fast;
+
+    img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 6px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    span {
+      font-size: 0.8rem;
+      text-align: center;
+      color: $text-color;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .search-section-header {
+    margin-bottom: 6px;
+    margin-top: 12px;
+    font-size: 1rem;
+    color: $text-color;
+  }
+
+  .search-albums-container,
+  .search-tracks-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

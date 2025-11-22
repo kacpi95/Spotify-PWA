@@ -391,6 +391,85 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+#search .search-header {
+  position: relative;
+  margin: 2rem;
+  border-radius: 11px;
+  border: 1px solid #bbb7b7;
+}
+#search .search-header input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #181818;
+}
+#search .search-header i {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #bbb7b7;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+#search .search-header i:hover {
+  color: #1acc58;
+}
+#search #searchResults {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-direction: column;
+}
+#search .search-album,
+#search .search-track {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #181818;
+  transition: transform 0.2s ease;
+}
+#search .search-album img,
+#search .search-track img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 6px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 6px;
+}
+#search .search-album span,
+#search .search-track span {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #fff;
+}
+#search .search-album:hover,
+#search .search-track:hover {
+  transform: scale(1.05);
+}
+#search .search-section-header {
+  margin-bottom: 6px;
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #fff;
+}
+#search .search-albums-container,
+#search .search-tracks-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
@@ -484,85 +563,6 @@ body {
     font-size: 0.8rem;
   }
 }
-#search .search-header {
-  position: relative;
-  margin: 2rem;
-  border-radius: 11px;
-  border: 1px solid #bbb7b7;
-}
-#search .search-header input {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 1.5rem;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #181818;
-}
-#search .search-header i {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #bbb7b7;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-#search .search-header i:hover {
-  color: #1acc58;
-}
-#search #searchResults {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-  flex-direction: column;
-}
-#search .search-album,
-#search .search-track {
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #181818;
-  transition: transform 0.2s ease;
-}
-#search .search-album img,
-#search .search-track img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 6px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 6px;
-}
-#search .search-album span,
-#search .search-track span {
-  font-size: 0.8rem;
-  text-align: center;
-  color: #fff;
-}
-#search .search-album:hover,
-#search .search-track:hover {
-  transform: scale(1.05);
-}
-#search .search-section-header {
-  margin-bottom: 6px;
-  margin-top: 12px;
-  font-size: 1rem;
-  color: #fff;
-}
-#search .search-albums-container,
-#search .search-tracks-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
 .category-container,
 .top-tracks-container {
   width: 100%;

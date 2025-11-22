@@ -6,96 +6,9 @@
 @import 'components/buttons';
 @import 'components/track-modal';
 @import 'components/album-modal';
+@import 'sections/search';
 @import 'utilities/responsive';
 
-#search {
-  .search-header {
-    position: relative;
-    margin: 2rem;
-    border-radius: 11px;
-    border: 1px solid $text-muted;
-
-    input {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 1.5rem;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      color: $text-color;
-      background-color: $bg-color-second;
-    }
-
-    i {
-      position: absolute;
-      right: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.2rem;
-      color: $text-muted;
-      cursor: pointer;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: $hover-color;
-      }
-    }
-  }
-
-  #searchResults {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-    flex-direction: column;
-  }
-
-  .search-album,
-  .search-track {
-    width: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    background: $bg-color-second;
-    transition: transform 0.2s ease;
-  }
-
-  .search-album img,
-  .search-track img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 6px;
-    object-fit: cover;
-    border-radius: 6px;
-  }
-
-  .search-album span,
-  .search-track span {
-    font-size: 0.8rem;
-    text-align: center;
-    color: $text-color;
-  }
-
-  .search-album:hover,
-  .search-track:hover {
-    transform: scale(1.05);
-  }
-  .search-section-header {
-    margin-bottom: 6px;
-    margin-top: 12px;
-    font-size: 1rem;
-    color: $text-color;
-  }
-
-  .search-albums-container,
-  .search-tracks-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-}
 .category-container,
 .top-tracks-container {
   width: 100%;
