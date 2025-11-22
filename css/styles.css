@@ -173,59 +173,7 @@ body {
   gap: 12px;
 }
 
-.category-container {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 2rem;
-}
-.category-container h2 {
-  margin-bottom: 20px;
-}
-
-#category {
-  max-width: 1200px;
-  width: 100%;
-}
-#category ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 24px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-#category li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px;
-  text-align: center;
-  border-radius: 12px;
-  background: #0a0a0a;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-#category li:hover {
-  transform: translateY(-6px);
-  background: #242424;
-}
-#category li img {
-  width: 100%;
-  height: 140px;
-  margin-bottom: 10px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 8px;
-}
-#category li h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #fff;
-}
-
+.category-container,
 .top-tracks-container {
   width: 100%;
   padding: 20px;
@@ -233,54 +181,61 @@ body {
   flex-direction: column;
   margin-top: 2rem;
 }
+.category-container h2,
 .top-tracks-container h2 {
   margin-bottom: 20px;
 }
 
+#category ul,
 #top-tracks ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 24px;
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style: none;
 }
-
+#category li,
 #top-tracks li {
   position: relative;
-  padding: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 14px;
   text-align: center;
   border-radius: 12px;
   background: #0a0a0a;
   cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
+#category li:hover,
 #top-tracks li:hover {
   transform: translateY(-6px);
   background: #242424;
 }
+#category li img,
 #top-tracks li img {
   width: 100%;
   height: 140px;
   margin-bottom: 10px;
-  border-radius: 8px;
   -o-object-fit: cover;
      object-fit: cover;
+  border-radius: 8px;
 }
+#category li h3,
 #top-tracks li h3 {
   margin: 6px 0 2px;
-  color: #fff;
   font-size: 18px;
+  color: #fff;
 }
+#category li h5,
 #top-tracks li h5 {
   margin: 0;
   font-weight: 300;
   font-size: 14px;
   color: #bbb7b7;
 }
+#category li .play-icon,
 #top-tracks li .play-icon {
   position: absolute;
   top: 100px;
@@ -292,6 +247,7 @@ body {
   transition: opacity 0.2s ease, transform 0.2s ease;
   pointer-events: auto;
 }
+#category li:hover .play-icon,
 #top-tracks li:hover .play-icon {
   opacity: 1;
   transform: scale(1);
