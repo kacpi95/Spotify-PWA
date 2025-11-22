@@ -1,0 +1,42 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin modal-backdrop {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+@mixin blur-background {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) brightness(0.5);
+  transform: scale(1.1);
+  z-index: -1;
+}
+
+@mixin grid-layout($min-width: 180px) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin hover-lift {
+  transition: transform $transition-fast, background $transition-fast;
+
+  &:hover {
+    transform: translateY(-6px);
+  }
+}
