@@ -470,7 +470,8 @@ body {
   gap: 12px;
 }
 
-#top-tracks li .play-icon {
+#top-tracks li .play-icon,
+#likedSongsContainer li .play-icon {
   position: absolute;
   top: 100px;
   right: 15px;
@@ -481,13 +482,15 @@ body {
   transition: opacity 0.2s ease, transform 0.2s ease;
   pointer-events: auto;
 }
-#top-tracks li:hover .play-icon {
+#top-tracks li:hover .play-icon,
+#likedSongsContainer li:hover .play-icon {
   opacity: 1;
   transform: scale(1);
 }
 
 .category-container,
-.top-tracks-container {
+.top-tracks-container,
+.library-section {
   width: 100%;
   padding: 20px;
   display: flex;
@@ -495,12 +498,15 @@ body {
   margin-top: 2rem;
 }
 .category-container h2,
-.top-tracks-container h2 {
+.top-tracks-container h2,
+.library-section h2 {
   margin-bottom: 20px;
 }
 
 #category ul,
-#top-tracks ul {
+#top-tracks ul,
+#likedSongsContainer ul,
+#savedAlbumsContainer ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 24px;
@@ -509,7 +515,9 @@ body {
   list-style: none;
 }
 #category li,
-#top-tracks li {
+#top-tracks li,
+#likedSongsContainer li,
+#savedAlbumsContainer li {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -522,15 +530,21 @@ body {
   transition: transform 0.2s ease, background 0.2s ease;
 }
 #category li:hover,
-#top-tracks li:hover {
+#top-tracks li:hover,
+#likedSongsContainer li:hover,
+#savedAlbumsContainer li:hover {
   transform: translateY(-6px);
 }
 #category li:hover,
-#top-tracks li:hover {
+#top-tracks li:hover,
+#likedSongsContainer li:hover,
+#savedAlbumsContainer li:hover {
   background: #242424;
 }
 #category li img,
-#top-tracks li img {
+#top-tracks li img,
+#likedSongsContainer li img,
+#savedAlbumsContainer li img {
   width: 100%;
   height: 140px;
   margin-bottom: 10px;
@@ -539,17 +553,30 @@ body {
   border-radius: 8px;
 }
 #category li h3,
-#top-tracks li h3 {
+#top-tracks li h3,
+#likedSongsContainer li h3,
+#savedAlbumsContainer li h3 {
   margin: 6px 0 2px;
   font-size: 18px;
   color: #fff;
 }
 #category li h5,
-#top-tracks li h5 {
+#top-tracks li h5,
+#likedSongsContainer li h5,
+#savedAlbumsContainer li h5 {
   margin: 0;
   font-weight: 300;
   font-size: 14px;
   color: #bbb7b7;
+}
+
+.library-page {
+  padding: 2rem;
+  width: 100%;
+}
+.library-page h1 {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
 }
 
 @media (max-width: 768px) {

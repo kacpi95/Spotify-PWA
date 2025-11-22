@@ -98,52 +98,80 @@ function loadLibrary() {
 
   if (likedSongsContainer) {
     likedSongsContainer.innerHTML = '';
+
+    const ulList = document.createElement('ul');
+
     likedSongs.forEach((track) => {
-      const div = document.createElement('div');
-      div.classList.add('library-item');
-      div.innerHTML = `
-        <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
-        <span>${track.name}</span>
-      `;
-      div.addEventListener('click', () => renderDescriptionTrack(track));
-      likedSongsContainer.appendChild(div);
+      const li = document.createElement('li');
+      const title = document.createElement('h3');
+      const artist = document.createElement('h5');
+      const img = document.createElement('img');
+      const icon = document.createElement('img');
+
+      title.textContent = track.name;
+      artist.textContent = track.artists?.map((a) => a.name).join(', ') || '';
+      img.src = track.album?.images?.[0]?.url || '';
+      img.alt = track.name || 'Unknown track';
+      icon.src = '../images/play-icon.png';
+      icon.alt = 'play-icon';
+      icon.classList.add('play-icon');
+
+      li.appendChild(img);
+      li.appendChild(title);
+      li.appendChild(artist);
+      li.appendChild(icon);
+
+      img.addEventListener('click', () => {
+        renderDescriptionTrack(track);
+      });
+
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const audioPlayer = document.querySelector('.player');
+        let iframe = audioPlayer.querySelector('iframe');
+        if (!iframe) {
+          iframe = document.createElement('iframe');
+          iframe.width = '500';
+          iframe.height = '80';
+          iframe.frameBorder = '0';
+          iframe.allow = 'encrypted-media';
+          audioPlayer.appendChild(iframe);
+        }
+        iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+      });
+
+      ulList.appendChild(li);
     });
+
+    likedSongsContainer.appendChild(ulList);
   }
 
   if (savedAlbumsContainer) {
     savedAlbumsContainer.innerHTML = '';
+
+    const ulList = document.createElement('ul');
+
     savedAlbums.forEach((album) => {
-      const div = document.createElement('div');
-      div.classList.add('library-item');
-      div.innerHTML = `
-        <img src="${album.images?.[0]?.url || ''}" alt="${album.name}" />
-        <span>${album.name}</span>
-      `;
-      div.addEventListener('click', () => renderAlbumPopup(album));
-      savedAlbumsContainer.appendChild(div);
+      const li = document.createElement('li');
+      const title = document.createElement('h3');
+      const img = document.createElement('img');
+
+      title.textContent = album.name;
+      img.src = album.images?.[0]?.url || '';
+      img.alt = album.name;
+
+      li.appendChild(img);
+      li.appendChild(title);
+
+      li.addEventListener('click', () => {
+        renderAlbumPopup(album);
+      });
+
+      ulList.appendChild(li);
     });
+
+    savedAlbumsContainer.appendChild(ulList);
   }
-}
-
-function toggleLikeTrack(track) {
-  const key = 'likedSongs';
-  let liked = JSON.parse(localStorage.getItem(key)) || [];
-  const exists = liked.some((t) => t.id === track.id);
-
-  if (exists) {
-    liked = liked.filter((t) => t.id !== track.id);
-  } else {
-    const toStore = {
-      id: track.id,
-      name: track.name,
-      artists: track.artists,
-      album: track.album,
-    };
-    liked.push(toStore);
-  }
-
-  localStorage.setItem(key, JSON.stringify(liked));
-  loadLibrary();
 }
 
 function toggleSaveAlbum(album) {

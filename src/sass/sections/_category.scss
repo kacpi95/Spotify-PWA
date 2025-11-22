@@ -1,5 +1,6 @@
 .category-container,
-.top-tracks-container {
+.top-tracks-container,
+.library-section {
   width: 100%;
   padding: 20px;
   display: flex;
@@ -12,7 +13,9 @@
 }
 
 #category,
-#top-tracks {
+#top-tracks,
+#likedSongsContainer,
+#savedAlbumsContainer {
   ul {
     @include grid-layout(180px);
   }
