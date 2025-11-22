@@ -1,18 +1,6 @@
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  height: 100vh;
-  font-family: 'Inter', sans-serif;
-  color: $text-color;
-  background-color: $bg-color-second;
-}
+@import 'base/reset';
 
 .header {
   width: 20vw;
@@ -270,12 +258,6 @@ body {
       transform: scale(1);
     }
   }
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .description-track {
