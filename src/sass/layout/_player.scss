@@ -1,0 +1,30 @@
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 20vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 20vw;
+  padding: $spacing-md;
+  gap: $spacing-md;
+  border-top: 1px solid $bg-color-second;
+  background-color: $bg-color;
+  z-index: 999999;
+
+  .player-info {
+    margin: 0.7rem 0;
+    flex: 1;
+    color: $text-muted;
+    font-size: 1rem;
+  }
+
+  audio {
+    width: 500px;
+    height: 32px;
+    margin-bottom: $spacing-md;
+    filter: invert(1) grayscale(100%);
+  }
+}
