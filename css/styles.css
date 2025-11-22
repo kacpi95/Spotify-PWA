@@ -29,8 +29,8 @@ body {
 }
 .header .logo {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin-bottom: 2rem;
 }
 .header .logo img {
