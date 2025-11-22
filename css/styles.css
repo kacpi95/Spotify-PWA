@@ -181,6 +181,104 @@ body {
   z-index: 10;
 }
 
+.description-track {
+  position: fixed;
+  inset: 0;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.track-content {
+  width: 90%;
+  max-width: 850px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+  padding: 0;
+  border-radius: 20px;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: modal-enter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+.track-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(40px) brightness(0.5);
+  transform: scale(1.1);
+  z-index: -1;
+}
+.track-content img {
+  width: 300px;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.track-content h2,
+.track-content h4,
+.track-content p {
+  opacity: 0;
+  animation: content-fade-in 0.5s ease-out forwards;
+}
+.track-content h2 {
+  margin: 0 0 8px;
+  line-height: 1.1;
+  font-weight: 700;
+  font-size: 2.5rem;
+  animation-delay: 0.2s;
+}
+.track-content h4 {
+  margin: 0 0 24px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  animation-delay: 0.3s;
+}
+.track-content p {
+  margin: 4px 0;
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  animation-delay: 0.4s;
+}
+
+.track-text-content {
+  padding: 32px 32px 32px 0;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+@keyframes content-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 #search .search-header {
   position: relative;
   margin: 2rem;
@@ -340,111 +438,6 @@ body {
   transform: scale(1);
 }
 
-.description-track {
-  display: none;
-  position: fixed;
-  justify-content: center;
-  align-items: center;
-  inset: 0;
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-  font-family: "Poppins", sans-serif;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 9999;
-}
-
-.track-content {
-  width: 90%;
-  max-width: 850px;
-  position: relative;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 32px;
-  padding: 0;
-  border-radius: 20px;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  animation: modal-enter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.track-content::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  filter: blur(40px) brightness(0.5);
-  transform: scale(1.1);
-  z-index: -1;
-}
-
-.track-content img {
-  width: 300px;
-  height: 300px;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-
-.track-text-content {
-  padding: 32px 32px 32px 0;
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-}
-
-.track-content h2,
-.track-content h4,
-.track-content p {
-  opacity: 0;
-  animation: content-fade-in 0.5s ease-out forwards;
-}
-
-.track-content h2 {
-  margin: 0 0 8px;
-  line-height: 1.1;
-  font-weight: 700;
-  font-size: 2.5rem;
-  animation-delay: 0.2s;
-}
-
-.track-content h4 {
-  margin: 0 0 24px;
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
-  animation-delay: 0.3s;
-}
-
-.track-content p {
-  margin: 4px 0;
-  font-size: 1rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.7);
-  animation-delay: 0.4s;
-}
-
-@keyframes modal-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-@keyframes content-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .album-popup {
   display: none;
   position: fixed;
