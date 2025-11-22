@@ -6,6 +6,7 @@
 @import 'components/buttons';
 @import 'components/track-modal';
 @import 'components/album-modal';
+@import 'utilities/responsive';
 
 #search {
   .search-header {
@@ -171,122 +172,6 @@
     &:hover .play-icon {
       opacity: 1;
       transform: scale(1);
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    width: 8vw;
-    min-width: 80px;
-
-    .nav ul li {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .desktop img {
-      display: none;
-    }
-
-    .mobile {
-      display: block;
-      margin: 0 auto;
-      width: 30px;
-      height: 30px;
-      background-image: url('../../src/images/spotiBlack-small-icon.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-  }
-
-  .player {
-    width: calc(100% - 80px);
-    margin-left: 80px;
-  }
-
-  #search .search-header input {
-    padding: 0.8rem 2.5rem 0.8rem 1rem;
-  }
-
-  .track-content {
-    grid-template-columns: 1fr;
-    gap: 0;
-    width: 95%;
-    max-width: 400px;
-
-    img {
-      width: 100%;
-      height: auto;
-    }
-
-    h2 {
-      font-size: 1.8rem;
-    }
-  }
-
-  .track-text-content {
-    padding: 24px;
-    text-align: center;
-    align-items: center;
-  }
-}
-
-@media (max-width: 600px) {
-  .album-content {
-    width: 95%;
-    max-width: 100%;
-
-    > img {
-      max-width: 220px;
-      margin-top: 40px;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    h4 {
-      font-size: 1rem;
-    }
-
-    ul li {
-      font-size: 0.9rem;
-      padding: 12px 16px;
-
-      img {
-        width: 24px;
-        height: 24px;
-      }
-    }
-  }
-
-  #search {
-    .search-album,
-    .search-track {
-      width: 80px;
-
-      img {
-        width: 60px;
-        height: 60px;
-      }
-
-      span {
-        font-size: 0.7rem;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .player {
-    audio {
-      width: 220px;
-    }
-
-    .player-info {
-      font-size: 0.8rem;
     }
   }
 }

@@ -391,6 +391,99 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+@media (max-width: 768px) {
+  .header {
+    width: 8vw;
+    min-width: 80px;
+  }
+  .header .nav ul li {
+    flex-direction: column;
+    text-align: center;
+  }
+  .header .desktop img {
+    display: none;
+  }
+  .header .mobile {
+    display: block;
+    margin: 0 auto;
+    width: 30px;
+    height: 30px;
+    background-image: url("../../src/images/spotiBlack-small-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .player {
+    width: calc(100% - 80px);
+    margin-left: 80px;
+  }
+  #search .search-header input {
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+  }
+  .track-content {
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: 95%;
+    max-width: 400px;
+  }
+  .track-content img {
+    width: 100%;
+    height: auto;
+  }
+  .track-content h2 {
+    font-size: 1.8rem;
+  }
+  .track-text-content {
+    padding: 24px;
+    text-align: center;
+    align-items: center;
+  }
+}
+@media (max-width: 600px) {
+  .album-content {
+    width: 95%;
+    max-width: 100%;
+  }
+  .album-content > img {
+    max-width: 220px;
+    margin-top: 40px;
+  }
+  .album-content h2 {
+    font-size: 1.5rem;
+  }
+  .album-content h4 {
+    font-size: 1rem;
+  }
+  .album-content ul li {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+  .album-content ul li img {
+    width: 24px;
+    height: 24px;
+  }
+  #search .search-album,
+  #search .search-track {
+    width: 80px;
+  }
+  #search .search-album img,
+  #search .search-track img {
+    width: 60px;
+    height: 60px;
+  }
+  #search .search-album span,
+  #search .search-track span {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 480px) {
+  .player audio {
+    width: 220px;
+  }
+  .player .player-info {
+    font-size: 0.8rem;
+  }
+}
 #search .search-header {
   position: relative;
   margin: 2rem;
@@ -548,98 +641,4 @@ body {
 #top-tracks li:hover .play-icon {
   opacity: 1;
   transform: scale(1);
-}
-
-@media (max-width: 768px) {
-  .header {
-    width: 8vw;
-    min-width: 80px;
-  }
-  .header .nav ul li {
-    flex-direction: column;
-    text-align: center;
-  }
-  .header .desktop img {
-    display: none;
-  }
-  .header .mobile {
-    display: block;
-    margin: 0 auto;
-    width: 30px;
-    height: 30px;
-    background-image: url("../../src/images/spotiBlack-small-icon.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  .player {
-    width: calc(100% - 80px);
-    margin-left: 80px;
-  }
-  #search .search-header input {
-    padding: 0.8rem 2.5rem 0.8rem 1rem;
-  }
-  .track-content {
-    grid-template-columns: 1fr;
-    gap: 0;
-    width: 95%;
-    max-width: 400px;
-  }
-  .track-content img {
-    width: 100%;
-    height: auto;
-  }
-  .track-content h2 {
-    font-size: 1.8rem;
-  }
-  .track-text-content {
-    padding: 24px;
-    text-align: center;
-    align-items: center;
-  }
-}
-@media (max-width: 600px) {
-  .album-content {
-    width: 95%;
-    max-width: 100%;
-  }
-  .album-content > img {
-    max-width: 220px;
-    margin-top: 40px;
-  }
-  .album-content h2 {
-    font-size: 1.5rem;
-  }
-  .album-content h4 {
-    font-size: 1rem;
-  }
-  .album-content ul li {
-    font-size: 0.9rem;
-    padding: 12px 16px;
-  }
-  .album-content ul li img {
-    width: 24px;
-    height: 24px;
-  }
-  #search .search-album,
-  #search .search-track {
-    width: 80px;
-  }
-  #search .search-album img,
-  #search .search-track img {
-    width: 60px;
-    height: 60px;
-  }
-  #search .search-album span,
-  #search .search-track span {
-    font-size: 0.7rem;
-  }
-}
-@media (max-width: 480px) {
-  .player audio {
-    width: 220px;
-  }
-  .player .player-info {
-    font-size: 0.8rem;
-  }
 }/*# sourceMappingURL=styles.css.map */
