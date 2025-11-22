@@ -7,6 +7,15 @@ const searchResults = document.querySelector('#searchResults');
 let albums = [];
 let tracks = [];
 
+function getImagePath(filename) {
+  const isInPages = window.location.pathname.includes('/pages/');
+
+  if (isInPages) {
+    return `../../src/images/${filename}`;
+  }
+  return `./images/${filename}`;
+}
+
 const APIController = function () {
   const getToken = async () => {
     const response = await fetch('http://localhost:3000/api/token');
@@ -112,7 +121,7 @@ function loadLibrary() {
       artist.textContent = track.artists?.map((a) => a.name).join(', ') || '';
       img.src = track.album?.images?.[0]?.url || '';
       img.alt = track.name || 'Unknown track';
-      icon.src = '../images/play-icon.png';
+      icon.src = getImagePath('play-icon.png');
       icon.alt = 'play-icon';
       icon.classList.add('play-icon');
 
@@ -172,6 +181,27 @@ function loadLibrary() {
 
     savedAlbumsContainer.appendChild(ulList);
   }
+}
+
+function toggleLikeTrack(track) {
+  const key = 'likedSongs';
+  let liked = JSON.parse(localStorage.getItem(key)) || [];
+  const exists = liked.some((t) => t.id === track.id);
+
+  if (exists) {
+    liked = liked.filter((t) => t.id !== track.id);
+  } else {
+    const toStore = {
+      id: track.id,
+      name: track.name,
+      artists: track.artists,
+      album: track.album,
+    };
+    liked.push(toStore);
+  }
+
+  localStorage.setItem(key, JSON.stringify(liked));
+  loadLibrary();
 }
 
 function toggleSaveAlbum(album) {
@@ -247,7 +277,7 @@ const renderTopTracksList = (tracks) => {
     artist.textContent = track.artists.map((a) => a.name).join(', ');
     img.src = track.album?.images?.[0]?.url;
     img.alt = track.name || 'Unknown track';
-    icon.src = './images/play-icon.png';
+    icon.src = getImagePath('play-icon.png');
     icon.alt = 'play-icon';
     icon.classList.add('play-icon');
 
@@ -302,7 +332,9 @@ const renderDescriptionTrack = (track) => {
   const isSaved = (JSON.parse(localStorage.getItem('likedSongs')) || []).some(
     (t) => t.id === track.id
   );
-  saveIcon.src = isSaved ? './images/check-icon.png' : './images/plus-icon.png';
+  saveIcon.src = isSaved
+    ? getImagePath('check-icon.png')
+    : getImagePath('plus-icon.png');
   saveBtn.appendChild(saveIcon);
 
   saveBtn.addEventListener('click', (e) => {
@@ -313,8 +345,8 @@ const renderDescriptionTrack = (track) => {
       JSON.parse(localStorage.getItem('likedSongs')) || []
     ).some((t) => t.id === track.id);
     saveIcon.src = nowSaved
-      ? './images/check-icon.png'
-      : './images/plus-icon.png';
+      ? getImagePath('check-icon.png')
+      : getImagePath('plus-icon.png');
   });
 
   const iconClose = document.createElement('span');
@@ -391,7 +423,9 @@ const renderAlbumPopup = async (album) => {
   const isSaved = (JSON.parse(localStorage.getItem('savedAlbums')) || []).some(
     (a) => a.id === album.id
   );
-  saveIcon.src = isSaved ? './images/check-icon.png' : './images/plus-icon.png';
+  saveIcon.src = isSaved
+    ? getImagePath('check-icon.png')
+    : getImagePath('plus-icon.png');
   saveBtn.appendChild(saveIcon);
 
   saveBtn.addEventListener('click', (e) => {
@@ -402,8 +436,8 @@ const renderAlbumPopup = async (album) => {
       JSON.parse(localStorage.getItem('savedAlbums')) || []
     ).some((a) => a.id === album.id);
     saveIcon.src = nowSaved
-      ? './images/check-icon.png'
-      : './images/plus-icon.png';
+      ? getImagePath('check-icon.png')
+      : getImagePath('plus-icon.png');
   });
 
   closeIcon.addEventListener('click', () => {
@@ -438,7 +472,7 @@ const renderAlbumPopup = async (album) => {
       li.textContent = `${id + 1}. ${track.name}`;
 
       const playBtn = document.createElement('img');
-      playBtn.src = './images/play-icon.png';
+      playBtn.src = getImagePath('play-icon.png');
       playBtn.alt = 'play icon';
       playBtn.style.width = '24px';
       playBtn.style.height = '24px';
