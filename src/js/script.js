@@ -618,6 +618,14 @@ function getPlaylistsById(id) {
   return playlists.find((el) => el.id === id);
 }
 
+function updatePlaylist(id, updates) {
+  const playlists = getPlaylists();
+  const index = playlists.findIndex((el) => el.id === id);
 
+  if (index !== -1) {
+    playlists[index] = { ...playlists[index], ...updates };
+    localStorage.setItem('playlists', JSON.stringify(playlists));
+  }
+}
 
 init();
