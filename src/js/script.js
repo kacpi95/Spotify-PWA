@@ -595,7 +595,7 @@ if (searchInput && searchResults) {
 }
 
 function createPlaylist() {
-  const playlists = JSON.parse(localStorage.getItem('playlists') || '');
+  const playlists = JSON.parse(localStorage.getItem('playlists') || []);
 
   const newPlaylist = {
     id: `playlist_${Date.now()}`,
@@ -613,7 +613,7 @@ function getPlaylists() {
   return JSON.parse(localStorage.getItem('playlists') || '');
 }
 
-function getPlaylistsById(id) {
+function getPlaylistById(id) {
   const playlists = getPlaylists();
   return playlists.find((el) => el.id === id);
 }
@@ -634,5 +634,37 @@ function deletePlaylist(id) {
   localStorage.setItem('playlists', JSON.stringify(playlists));
 }
 
+function addTrackToPlaylist(playlistId, track) {
+  const playlists = getPlaylists();
+  const playlist = playlists.find((el) => el.id === playlistId);
+
+  if (playlist) {
+    const exists = playlist.track.some((el) => el.id === track.id);
+
+    if (!exists) {
+      const trackToStore = {
+        id: track.id,
+        name: track.name,
+        artists: track.artists,
+        album: track.album,
+      };
+
+      playlist.tracks.push(trackToStore);
+      localStorage.setItem('playlists', JSON.stringify(playlists));
+      return true;
+    }
+  }
+  return false;
+}
+
+function removeTrackFromPlaylist(playlistId, trackId) {
+  const playlists = getPlaylists();
+  const playlist = playlists.find((p) => p.id === playlistId);
+
+  if (playlist) {
+    playlist.tracks = playlist.tracks.filter((t) => t.id !== trackId);
+    localStorage.setItem('playlists', JSON.stringify(playlists));
+  }
+}
 
 init();
