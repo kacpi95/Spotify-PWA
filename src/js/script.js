@@ -628,4 +628,11 @@ function updatePlaylist(id, updates) {
   }
 }
 
+function deletePlaylist(id) {
+  let playlists = getPlaylists();
+  playlists = playlists.filter((el) => el.id !== id);
+  localStorage.setItem('playlists', JSON.stringify(playlists));
+}
+
+
 init();
