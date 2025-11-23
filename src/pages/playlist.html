@@ -32,16 +32,44 @@
           </li>
           <li>
             <i class="fa-solid fa-square-plus"></i
-            ><a href="playlist.html">Create Playlist</a>
+            ><a href="playlist.html" id="createPlaylistBtn">Create Playlist</a>
           </li>
         </ul>
       </nav>
     </header>
-    <footer class="player">
-      <div class="player-info">
-        <p>Czesław Niemen- Dziwny jest ten świat.</p>
-      </div>
-      <audio id="audioPlayer" controls></audio>
-    </footer>
+    <div class="content">
+      <section class="playlist-page">
+        <div class="playlist-header">
+          <div class="playlist-image-container">
+            <img id="playlistImage" src="" alt="Playlist cover" />
+            <button class="change-image-btn" id="changeImageBtn">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+            <input type="file" id="imageUpload" accept="image/*" hidden />
+          </div>
+
+          <div class="playlist-info">
+            <span class="playlist-type">PLAYLIST</span>
+            <h1 contenteditable="true" id="playlistName" class="editable-title">
+              My Playlist
+            </h1>
+            <p
+              contenteditable="true"
+              id="playlistDescription"
+              class="editable-description"
+            >
+              Add a description...
+            </p>
+            <div class="playlist-meta">
+              <span id="playlistTrackCount">0 songs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div id="description-track" class="description-track">
+      <div class="track-content"></div>
+    </div>
+    <footer class="player"></footer>
   </body>
 </html>
