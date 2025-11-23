@@ -609,4 +609,15 @@ function createPlaylist() {
   localStorage.setItem('playlists', JSON.stringify(playlists));
 }
 
+function getPlaylists() {
+  return JSON.parse(localStorage.getItem('playlists') || '');
+}
+
+function getPlaylistsById(id) {
+  const playlists = getPlaylists();
+  return playlists.find((el) => el.id === id);
+}
+
+
+
 init();
