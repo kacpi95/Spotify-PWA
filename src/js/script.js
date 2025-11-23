@@ -3,6 +3,7 @@ const topTracks = document.querySelector('#top-tracks');
 const audioPlayer = document.querySelector('.player');
 const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
+const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
 
 let albums = [];
 let tracks = [];
@@ -595,7 +596,7 @@ if (searchInput && searchResults) {
 }
 
 function createPlaylist() {
-  const playlists = JSON.parse(localStorage.getItem('playlists') || []);
+  const playlists = JSON.parse(localStorage.getItem('playlists')) || [];
 
   const newPlaylist = {
     id: `playlist_${Date.now()}`,
@@ -607,10 +608,18 @@ function createPlaylist() {
   };
   playlists.push(newPlaylist);
   localStorage.setItem('playlists', JSON.stringify(playlists));
+
+  const isInPages = window.location.pathname.includes('/pages/');
+
+  if (isInPages) {
+    window.location.href = `./playlist.html?id=${newPlaylist.id}`;
+  } else {
+    window.location.href = `./pages/playlist.html?id=${newPlaylist.id}`;
+  }
 }
 
 function getPlaylists() {
-  return JSON.parse(localStorage.getItem('playlists') || '');
+  return JSON.parse(localStorage.getItem('playlists') || []);
 }
 
 function getPlaylistById(id) {
@@ -639,7 +648,7 @@ function addTrackToPlaylist(playlistId, track) {
   const playlist = playlists.find((el) => el.id === playlistId);
 
   if (playlist) {
-    const exists = playlist.track.some((el) => el.id === track.id);
+    const exists = playlist.tracks.some((el) => el.id === track.id);
 
     if (!exists) {
       const trackToStore = {
@@ -665,6 +674,13 @@ function removeTrackFromPlaylist(playlistId, trackId) {
     playlist.tracks = playlist.tracks.filter((t) => t.id !== trackId);
     localStorage.setItem('playlists', JSON.stringify(playlists));
   }
+}
+
+if (createPlaylistBtn) {
+  createPlaylistBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    createPlaylist();
+  });
 }
 
 init();
