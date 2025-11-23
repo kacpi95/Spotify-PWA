@@ -594,4 +594,19 @@ if (searchInput && searchResults) {
   });
 }
 
+function createPlaylist() {
+  const playlists = JSON.parse(localStorage.getItem('playlists') || '');
+
+  const newPlaylist = {
+    id: `playlist_${Date.now()}`,
+    name: `My Playlist #${playlists.length + 1}`,
+    image: getImagePath('plus-icon.png'),
+    description: '',
+    createdAt: new Date().toISOString(),
+    tracks: [],
+  };
+  playlists.push(newPlaylist);
+  localStorage.setItem('playlists', JSON.stringify(playlists));
+}
+
 init();
