@@ -75,3 +75,34 @@ function renderPlaylist() {
     });
   });
 }
+playlistName.addEventListener('blur', () => {
+  updatePlaylist(playlistId, { name: playlistName.textContent });
+});
+
+playlistDescription.addEventListener('blur', () => {
+  updatePlaylist(playlistId, { description: playlistDescription.textContent });
+});
+
+changeImageBtn.addEventListener('click', () => {
+  imageUpload.click();
+});
+
+imageUpload.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageUrl = event.target.result;
+      playlistImage.src = imageUrl;
+      updatePlaylist(playlistId, { image: imageUrl });
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+deletePlaylistBtn.addEventListener('click', () => {
+  if (confirm('Are you sure you want to delete this playlist?')) {
+    deletePlaylist(playlistId);
+    window.location.href = 'library.html';
+  }
+});
