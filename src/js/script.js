@@ -95,7 +95,7 @@ async function init() {
   if (topTracks) {
     renderTopTracksList(tracks);
   }
-
+  loadPlaylists();
   loadLibrary();
 }
 

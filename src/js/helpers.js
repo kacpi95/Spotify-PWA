@@ -79,6 +79,8 @@ function createPlaylist() {
   playlists.push(newPlaylist);
   localStorage.setItem('playlists', JSON.stringify(playlists));
 
+  loadPlaylists();
+
   const isInPages = window.location.pathname.includes('/pages/');
 
   if (isInPages) {
@@ -86,4 +88,45 @@ function createPlaylist() {
   } else {
     window.location.href = `./pages/playlist.html?id=${newPlaylist.id}`;
   }
+}
+
+function loadPlaylists() {
+  const playlistsListContainer = document.getElementById('playlistsList');
+
+  if (!playlistsListContainer) return;
+
+  const playlists = getPlaylists();
+
+  playlistsListContainer.innerHTML = '';
+
+  if (playlists.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = 'No playlists yet';
+    li.classList.add('no-playlists');
+    playlistsListContainer.appendChild(li);
+    return;
+  }
+
+  playlists.forEach((playlist) => {
+    const li = document.createElement('li');
+    li.classList.add('playlist-item');
+
+    const link = document.createElement('a');
+
+    const isInPages = window.location.pathname.includes('/pages/');
+
+    if (isInPages) {
+      link.href = `./playlist.html?id=${playlist.id}`;
+    } else {
+      link.href = `./pages/playlist.html?id=${playlist.id}`;
+    }
+
+    link.innerHTML = `
+      <i class="fa-solid fa-list"></i>
+      <span>${playlist.name}</span>
+    `;
+
+    li.appendChild(link);
+    playlistsListContainer.appendChild(li);
+  });
 }
