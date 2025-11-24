@@ -70,7 +70,7 @@ function createPlaylist() {
   const newPlaylist = {
     id: `playlist_${Date.now()}`,
     name: `My Playlist #${playlists.length + 1}`,
-    image: getImagePath('default-playlist.png'),
+    image: getImagePath('plus-icon.png'),
     description: '',
     createdAt: new Date().toISOString(),
     tracks: [],

@@ -14,26 +14,33 @@
   <body>
     <header class="header">
       <a href="#home" class="logo desktop">
-        <img src="./images/spotiBlack-icon.png" alt="spotify-icon" />
+        <img src="../../src/images/spotiBlack-icon.png" alt="spotify-icon" />
       </a>
       <a href="#home" class="logo mobile"></a>
       <nav class="nav">
         <ul>
-          <li><i class="fa-solid fa-house"></i><a href="#home">Home</a></li>
           <li>
-            <i class="fa-solid fa-magnifying-glass"></i
-            ><a href="#search">Search</a>
+            <i class="fa-solid fa-house"></i>
+            <a href="#home">Home</a>
           </li>
           <li>
-            <i class="fa-solid fa-book"></i
-            ><a href="./pages/library.html">Your Library</a>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <a href="#search">Search</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-book"></i>
+            <a href="./pages/library.html">Your Library</a>
           </li>
           <li>
             <i class="fa-solid fa-square-plus"></i>
-            <!-- <a href="./pages/playlist.html">Create Playlist</a> -->
             <a href="#" id="createPlaylistBtn">Create Playlist</a>
           </li>
         </ul>
+        <div class="playlists-section">
+          <h3 class="playlists-header">Your Playlists</h3>
+          <ul id="playlistsList" class="playlists-list">
+          </ul>
+        </div>
       </nav>
     </header>
     <div class="content">
