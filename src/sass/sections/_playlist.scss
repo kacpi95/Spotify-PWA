@@ -1,0 +1,101 @@
+.playlist-page {
+  width: 100%;
+  max-width: 1400px;
+  padding: $spacing-lg;
+  margin: 0 auto;
+}
+
+.playlist-header {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: flex-end;
+
+  .playlist-image-container {
+    position: relative;
+    width: 232px;
+    height: 232px;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: $radius-md;
+      object-fit: cover;
+    }
+
+    .change-image-btn {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 12px;
+      right: 12px;
+      width: 48px;
+      height: 48px;
+      opacity: 0;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      color: $text-color;
+      background: rgba(0, 0, 0, 0.7);
+      transition: opacity 0.2s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.9);
+      }
+    }
+
+    &:hover .change-image-btn {
+      opacity: 1;
+    }
+  }
+
+  .playlist-info {
+    flex: 1;
+
+    .playlist-type {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .editable-title {
+      padding: 4px;
+      margin: 8px 0;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      font-size: 3rem;
+      font-weight: 900;
+      outline: none;
+      cursor: text;
+
+      &:hover,
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .editable-description {
+      font-size: 0.9rem;
+      color: $text-muted;
+      outline: none;
+      cursor: text;
+      border: 2px solid transparent;
+      padding: 4px;
+      border-radius: 4px;
+
+      &:hover,
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .playlist-meta {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: $text-muted;
+    }
+  }
+}

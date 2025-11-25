@@ -579,6 +579,95 @@ body {
   font-size: 2.5rem;
 }
 
+.playlist-page {
+  width: 100%;
+  max-width: 1400px;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.playlist-header {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  align-items: flex-end;
+}
+.playlist-header .playlist-image-container {
+  position: relative;
+  width: 232px;
+  height: 232px;
+  flex-shrink: 0;
+}
+.playlist-header .playlist-image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.playlist-header .playlist-image-container .change-image-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 12px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  opacity: 0;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 0.2s;
+}
+.playlist-header .playlist-image-container .change-image-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.playlist-header .playlist-image-container:hover .change-image-btn {
+  opacity: 1;
+}
+.playlist-header .playlist-info {
+  flex: 1;
+}
+.playlist-header .playlist-info .playlist-type {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.playlist-header .playlist-info .editable-title {
+  padding: 4px;
+  margin: 8px 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  font-size: 3rem;
+  font-weight: 900;
+  outline: none;
+  cursor: text;
+}
+.playlist-header .playlist-info .editable-title:hover, .playlist-header .playlist-info .editable-title:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.playlist-header .playlist-info .editable-description {
+  font-size: 0.9rem;
+  color: #bbb7b7;
+  outline: none;
+  cursor: text;
+  border: 2px solid transparent;
+  padding: 4px;
+  border-radius: 4px;
+}
+.playlist-header .playlist-info .editable-description:hover, .playlist-header .playlist-info .editable-description:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.playlist-header .playlist-info .playlist-meta {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #bbb7b7;
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
