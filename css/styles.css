@@ -703,6 +703,82 @@ body {
   transform: scale(1.05);
 }
 
+.playlist-tracks-container .playlist-tracks-header {
+  display: grid;
+  grid-template-columns: 40px 4fr 3fr 40px;
+  gap: 16px;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #bbb7b7;
+}
+.playlist-tracks-container .playlist-track-row {
+  display: grid;
+  grid-template-columns: 40px 4fr 3fr 40px;
+  gap: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.playlist-tracks-container .playlist-track-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.playlist-tracks-container .playlist-track-row:hover .btn-remove-track {
+  opacity: 1;
+}
+.playlist-tracks-container .playlist-track-row .track-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb7b7;
+}
+.playlist-tracks-container .playlist-track-row .track-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.playlist-tracks-container .playlist-track-row .track-info img {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 4px;
+}
+.playlist-tracks-container .playlist-track-row .track-info .track-name {
+  font-weight: 500;
+  color: #fff;
+}
+.playlist-tracks-container .playlist-track-row .track-info .track-artist {
+  font-size: 0.875rem;
+  color: #bbb7b7;
+}
+.playlist-tracks-container .playlist-track-row .track-album-name {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #bbb7b7;
+}
+.playlist-tracks-container .playlist-track-row .btn-remove-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  opacity: 0;
+  cursor: pointer;
+  color: #bbb7b7;
+  background: transparent;
+  transition: all 0.2s;
+}
+.playlist-tracks-container .playlist-track-row .btn-remove-track:hover {
+  color: #fff;
+  transform: scale(1.2);
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
