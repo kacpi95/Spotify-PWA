@@ -668,6 +668,41 @@ body {
   color: #bbb7b7;
 }
 
+.playlist-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+.playlist-actions .btn-play-all {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #000;
+  background: #1fb152;
+  transition: all 0.2s;
+}
+.playlist-actions .btn-play-all:hover {
+  transform: scale(1.05);
+  background: #1acc58;
+}
+.playlist-actions .btn-delete-playlist {
+  padding: 8px 16px;
+  color: #fff;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.2s;
+}
+.playlist-actions .btn-delete-playlist:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
   .header {
     width: 8vw;
