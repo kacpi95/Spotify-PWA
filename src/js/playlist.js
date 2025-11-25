@@ -106,3 +106,26 @@ deletePlaylistBtn.addEventListener('click', () => {
     window.location.href = 'library.html';
   }
 });
+
+function playTrack(track) {
+  const audioPlayer = document.querySelector('.player');
+  let iframe = audioPlayer.querySelector('iframe');
+
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.width = '500';
+    iframe.height = '80';
+    iframe.frameBorder = '0';
+    iframe.allow = 'encrypted-media';
+    audioPlayer.appendChild(iframe);
+  }
+
+  iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+}
+
+playAllBtn.addEventListener('click', () => {
+  const playlist = getPlaylistById(playlistId);
+  if (playlist.tracks.length > 0) {
+    playTrack(playlist.tracks[0]);
+  }
+});
