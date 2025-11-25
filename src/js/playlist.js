@@ -129,3 +129,13 @@ playAllBtn.addEventListener('click', () => {
     playTrack(playlist.tracks[0]);
   }
 });
+
+const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
+if (createPlaylistBtn) {
+  createPlaylistBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    createPlaylist();
+  });
+}
+
+renderPlaylist();
