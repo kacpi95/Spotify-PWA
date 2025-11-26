@@ -70,6 +70,12 @@ function renderPlaylist() {
 
   playlistSearchResults.innerHTML = '';
 
+  if (playlist.tracks.length === 0) {
+    playlistTracksContainer.innerHTML =
+      '<p class="no-tracks">No tracks !</p>';
+    return;
+  }
+
   playlist.tracks.forEach((track, index) => {
     const trackRow = document.createElement('div');
     trackRow.classList.add('playlist-track-row');
@@ -97,7 +103,7 @@ function renderPlaylist() {
       }
     });
 
-    playlistTracksContainer.appendChild(trackRow);
+    playlistSearchResults.appendChild(trackRow);
   });
 
   document.querySelectorAll('.btn-remove-track').forEach((btn) => {
@@ -106,11 +112,99 @@ function renderPlaylist() {
       const trackId = btn.dataset.trackId;
       removeTrackFromPlaylist(playlistId, trackId);
       renderPlaylist();
+
+      if (playlistSearchInput && playlistSearchInput.value) {
+        playlistSearchInput.dispatchEvent(new Event('input'));
+      }
     });
   });
 }
+
+if (playlistSearchInput && playlistSearchResults) {
+  playlistSearchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+
+    if (!query) {
+      playlistSearchResults.innerHTML = '';
+      return;
+    }
+
+    const filteredTracks = tracks.filter((track) => {
+      return (
+        track.name.toLowerCase().includes(query) ||
+        track.artists.some((artist) =>
+          artist.name.toLowerCase().includes(query)
+        )
+      );
+    });
+
+    playlistSearchResults.innerHTML = '';
+
+    if (filteredTracks.length === 0) {
+      playlistSearchResults.innerHTML =
+        '<p class="no-results">No results found</p>';
+      return;
+    }
+
+    filteredTracks.forEach((track) => {
+      const trackItem = document.createElement('div');
+      trackItem.classList.add('search-result-item');
+
+      const playlist = getPlaylistById(playlistId);
+      const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
+
+      trackItem.innerHTML = `
+        <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
+        <div class="search-result-info">
+          <div class="search-result-name">${track.name}</div>
+          <div class="search-result-artist">${
+            track.artists?.map((a) => a.name).join(', ') || ''
+          }</div>
+        </div>
+        <button class="btn-add-track ${
+          isInPlaylist ? 'added' : ''
+        }" data-track-id="${track.id}">
+          ${
+            isInPlaylist
+              ? '<i class="fa-solid fa-check"></i> Added'
+              : '<i class="fa-solid fa-plus"></i> Add'
+          }
+        </button>
+      `;
+
+      const addBtn = trackItem.querySelector('.btn-add-track');
+      addBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        if (!isInPlaylist) {
+          const success = addTrackToPlaylist(playlistId, track);
+          if (success) {
+            addBtn.classList.add('added');
+            addBtn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+            renderPlaylist();
+            showToast(`Added "${track.name}" to playlist`);
+          }
+        } else {
+          removeTrackFromPlaylist(playlistId, track.id);
+          addBtn.classList.remove('added');
+          addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
+          renderPlaylist();
+          showToast(`Removed "${track.name}" from playlist`);
+        }
+      });
+
+      trackItem.addEventListener('click', () => {
+        playTrack(track);
+      });
+
+      playlistSearchResults.appendChild(trackItem);
+    });
+  });
+}
+
 playlistName.addEventListener('blur', () => {
   updatePlaylist(playlistId, { name: playlistName.textContent });
+  loadPlaylists();
 });
 
 playlistDescription.addEventListener('blur', () => {
@@ -129,6 +223,7 @@ imageUpload.addEventListener('change', (e) => {
       const imageUrl = event.target.result;
       playlistImage.src = imageUrl;
       updatePlaylist(playlistId, { image: imageUrl });
+      loadPlaylists();
     };
     reader.readAsDataURL(file);
   }
@@ -172,52 +267,9 @@ if (createPlaylistBtn) {
   });
 }
 
-if (playlistSearchInput && playlistSearchResults) {
-  playlistSearchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-
-    if (!query) {
-      playlistSearchResults.innerHTML = '';
-      return;
-    }
-
-    const filteredTracks = tracks.filter((track) => {
-      track.name.toLowerCase().includes(query);
-      track.artists.some((artist) => artist.name.toLowerCase().includes(query));
-    });
-
-    playlistSearchResults.innerHTML = '';
-
-    if (filteredTracks.length > 0) {
-      const tracksContainer = document.createElement('div');
-      tracksContainer.classList.add('search-playlist-container');
-
-      filteredTracks.forEach((track) => {
-        const div = document.createElement('div');
-        div.classList.add('search-track-playlist');
-
-        const img = document.createElement('img');
-        img.src = track.album.images[0]?.url || '';
-        img.alt = track.name;
-
-        const title = document.createElement('span');
-        title.textContent = track.name;
-
-        div.appendChild(img);
-        div.appendChild(title);
-
-        div.addEventListener('click', () => renderDescriptionTrack(track));
-
-        tracksContainer.appendChild(div);
-      });
-
-      playlistSearchResults.appendChild(tracksContainer);
-    }
-  });
-}
-
 async function init() {
   await loadData();
   renderPlaylist();
+  loadPlaylists();
 }
 init();
