@@ -8,7 +8,7 @@
       src="https://kit.fontawesome.com/f90e6be36c.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="../../css/styles.css" />
   </head>
   <body>
     <header class="header">
@@ -83,18 +83,17 @@
             <span class="track-title">title</span>
             <span class="track-album">album</span>
           </div>
+          <div class="playlist-search">
+            <input
+              type="text"
+              id="playlistSearchInput"
+              placeholder="Search ..."
+            />
+          </div>
           <div id="playlistTracks" class="playlist-tracks"></div>
         </div>
       </section>
     </div>
-    <div id="playlistSelectModal" class="modal-overlay">
-      <div class="modal-content playlist-select">
-        <h2>Add to Playlist</h2>
-        <div id="playlistSelectList"></div>
-        <button class="btn-close-modal">Cancel</button>
-      </div>
-    </div>
-
     <div id="description-track" class="description-track">
       <div class="track-content"></div>
     </div>
