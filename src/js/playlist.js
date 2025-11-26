@@ -19,6 +19,17 @@ const APIController = function () {
 
 const api = APIController();
 
+let tracks = [];
+
+async function loadData() {
+  try {
+    tracks = await api.getTopTracks();
+    console.log('Data:', { tracks: tracks.length });
+  } catch (err) {
+    console.error('Error', err);
+  }
+}
+
 const playlistImage = document.getElementById('playlistImage');
 const playlistName = document.getElementById('playlistName');
 const playlistDescription = document.getElementById('playlistDescription');
@@ -28,8 +39,8 @@ const changeImageBtn = document.getElementById('changeImageBtn');
 const imageUpload = document.getElementById('imageUpload');
 const deletePlaylistBtn = document.getElementById('deletePlaylistBtn');
 const playAllBtn = document.getElementById('playAllBtn');
-const playlistSearchInput = document.querySelector('#playlistSearchInput');
-const playlistSearchResults = document.querySelector('#playlistTracks');
+const playlistSearchInput = document.getElementById('playlistSearchInput');
+const playlistSearchResults = document.getElementById('playlistSearchResults');
 
 const urlParams = new URLSearchParams(window.location.search);
 const playlistId = urlParams.get('id');
@@ -57,7 +68,7 @@ function renderPlaylist() {
     playlist.description || 'Add a description...';
   playlistTrackCount.textContent = `${playlist.tracks.length} songs`;
 
-  playlistTracksContainer.innerHTML = '';
+  playlistSearchResults.innerHTML = '';
 
   playlist.tracks.forEach((track, index) => {
     const trackRow = document.createElement('div');
@@ -161,8 +172,6 @@ if (createPlaylistBtn) {
   });
 }
 
-renderPlaylist();
-
 if (playlistSearchInput && playlistSearchResults) {
   playlistSearchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase();
@@ -177,7 +186,7 @@ if (playlistSearchInput && playlistSearchResults) {
       track.artists.some((artist) => artist.name.toLowerCase().includes(query));
     });
 
-    searchResults.innerHTML = '';
+    playlistSearchResults.innerHTML = '';
 
     if (filteredTracks.length > 0) {
       const tracksContainer = document.createElement('div');
@@ -206,3 +215,9 @@ if (playlistSearchInput && playlistSearchResults) {
     }
   });
 }
+
+async function init() {
+  await loadData();
+  renderPlaylist();
+}
+init();
