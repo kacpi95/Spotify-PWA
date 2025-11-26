@@ -7,6 +7,8 @@ const changeImageBtn = document.getElementById('changeImageBtn');
 const imageUpload = document.getElementById('imageUpload');
 const deletePlaylistBtn = document.getElementById('deletePlaylistBtn');
 const playAllBtn = document.getElementById('playAllBtn');
+const playlistSearchInput = document.querySelector('#playlistSearchInput');
+const playlistSearchResults = document.querySelector('#playlistTracks');
 
 const urlParams = new URLSearchParams(window.location.search);
 const playlistId = urlParams.get('id');
@@ -139,3 +141,47 @@ if (createPlaylistBtn) {
 }
 
 renderPlaylist();
+
+if (playlistSearchInput && playlistSearchResults) {
+  playlistSearchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+
+    if (!query) {
+      playlistSearchResults.innerHTML = '';
+      return;
+    }
+
+    const filteredTracks = tracks.filter((track) => {
+      track.name.toLowerCase().includes(query);
+      track.artists.some((artist) => artist.name.toLowerCase().includes(query));
+    });
+
+    searchResults.innerHTML = '';
+
+    if (filteredTracks.length > 0) {
+      const tracksContainer = document.createElement('div');
+      tracksContainer.classList.add('search-playlist-container');
+
+      filteredTracks.forEach((track) => {
+        const div = document.createElement('div');
+        div.classList.add('search-track-playlist');
+
+        const img = document.createElement('img');
+        img.src = track.album.images[0]?.url || '';
+        img.alt = track.name;
+
+        const title = document.createElement('span');
+        title.textContent = track.name;
+
+        div.appendChild(img);
+        div.appendChild(title);
+
+        div.addEventListener('click', () => renderDescriptionTrack(track));
+
+        tracksContainer.appendChild(div);
+      });
+
+      playlistSearchResults.appendChild(tracksContainer);
+    }
+  });
+}
