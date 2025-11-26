@@ -1,3 +1,24 @@
+const APIController = function () {
+  const getToken = async () => {
+    const response = await fetch('http://localhost:3000/api/token');
+    const data = await response.json();
+    return data.token;
+  };
+
+  const getTopTracks = async () => {
+    const response = await fetch('http://localhost:3000/api/top-tracks');
+    const data = await response.json();
+    return data.tracks;
+  };
+
+  return {
+    getToken,
+    getTopTracks,
+  };
+};
+
+const api = APIController();
+
 const playlistImage = document.getElementById('playlistImage');
 const playlistName = document.getElementById('playlistName');
 const playlistDescription = document.getElementById('playlistDescription');
