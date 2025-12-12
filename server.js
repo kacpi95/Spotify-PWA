@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
@@ -9,6 +10,12 @@ app.use(express.json());
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
+
+app.use(express.static(path.join(__dirname, 'src')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src', 'index.html'));
+});
 
 async function getSpotifyToken() {
   const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString(
@@ -118,6 +125,7 @@ app.get('/api/album/:id/tracks', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log('Backend running at localhost 3000');
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Backend running at localhost http://localhost:${PORT}`);
 });
