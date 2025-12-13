@@ -18,5 +18,8 @@
     "node-fetch": "^2.7.0",
     "nodemon": "^3.1.11",
     "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "sass": "^1.96.0"
   }
 }
