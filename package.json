@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run sass\" \"npm run server\"",
-    "sass": "sass --watch src/scss:src/css",
+    "dev": "npx concurrently \"npm run sass\" \"npm run server\"",
+    "sass": "sass --watch src/sass:src/css",
     "server": "node server.js"
   },
   "keywords": [],
