@@ -1,3 +1,6 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
 .album-popup {
   @include modal-backdrop;
   justify-content: center;
