@@ -1,0 +1,13 @@
+@use "../abstracts/variables" as *;
+
+.app-footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: $radius-md;
+	text-align: center;
+	font-size: $spacing-md;
+	color: $text-muted;
+	background-color: $bg-color;
+}

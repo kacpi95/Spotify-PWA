@@ -75,7 +75,7 @@
 				</div>
 			</nav>
 		</header>
-		<div class="content">
+		<main class="content">
 			<section id="search" class="page">
 				<div class="search-header">
 					<input type="text" id="searchInput" placeholder="Search..." />
@@ -87,18 +87,22 @@
 				<h2>Top Tracks:</h2>
 				<div id="top-tracks" class="top-tracks"></div>
 			</section>
-			<main class="category-container">
+			<div class="category-container">
 				<h2>Albums:</h2>
 				<div id="category" class="category"></div>
-			</main>
-		</div>
+			</div>
+		</main>
 		<div id="album-popup" class="album-popup">
 			<div class="album-content"></div>
 		</div>
-		<footer class="player"></footer>
+		<div class="player"></div>
 		<div id="description-track" class="description-track">
 			<div class="track-content"></div>
 		</div>
+		<footer class="app-footer">
+			<p><strong>Spotify PWA</strong> © 2026</p>
+			<p>Autor: Kacper Grzywacz</p>
+		</footer>
 		<script src="./js/helpers.js"></script>
 		<script src="./js/script.js"></script>
 	</body>
