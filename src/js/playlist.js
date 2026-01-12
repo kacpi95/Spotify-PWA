@@ -1,14 +1,28 @@
 const APIController = function () {
   const getToken = async () => {
-    const response = await fetch('http://localhost:3000/api/token');
-    const data = await response.json();
-    return data.token;
+    try {
+      const response = await fetch('http://localhost:3000/api/token');
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data.token;
+    } catch (err) {
+      console.error(`Token dowload error`, err);
+    }
   };
 
   const getTopTracks = async () => {
-    const response = await fetch('http://localhost:3000/api/top-tracks');
-    const data = await response.json();
-    return data.tracks;
+    try {
+      const response = await fetch('http://localhost:3000/api/top-tracks');
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data.tracks;
+    } catch (err) {
+      console.error(`Top tracks download error`, err);
+    }
   };
 
   return {
@@ -24,7 +38,6 @@ let tracks = [];
 async function loadData() {
   try {
     tracks = await api.getTopTracks();
-    console.log('Data:', { tracks: tracks.length });
   } catch (err) {
     console.error('Error', err);
   }
@@ -71,8 +84,7 @@ function renderPlaylist() {
   playlistSearchResults.innerHTML = '';
 
   if (playlist.tracks.length === 0) {
-    playlistTracksContainer.innerHTML =
-      '<p class="no-tracks">No tracks !</p>';
+    playlistTracksContainer.innerHTML = '<p class="no-tracks">No tracks !</p>';
     return;
   }
 

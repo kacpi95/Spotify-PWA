@@ -19,43 +19,75 @@ function getImagePath(filename) {
 
 const APIController = function () {
   const getToken = async () => {
-    const response = await fetch('http://localhost:3000/api/token');
-    const data = await response.json();
+    try {
+      const response = await fetch('http://localhost:3000/api/token');
 
-    console.log('Token backend:', data.token);
-    return data.token;
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+
+      return data.token;
+    } catch (err) {
+      console.error('Failed to retrieve token', err);
+    }
   };
 
   const getTopTracks = async () => {
-    const response = await fetch('http://localhost:3000/api/top-tracks');
-    const data = await response.json();
+    try {
+      const response = await fetch('http://localhost:3000/api/top-tracks');
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
 
-    console.log('Top tracks', data.tracks);
-    return data.tracks;
+      return data.tracks;
+    } catch (err) {
+      console.error(`Top tracks download error`, err);
+    }
   };
 
   const getTrack = async (token, trackUrl) => {
-    const res = await fetch(trackUrl, {
-      headers: { Authorization: 'Bearer ' + token },
-    });
-    const data = await res.json();
-    return data;
+    try {
+      const res = await fetch(trackUrl, {
+        headers: { Authorization: 'Bearer ' + token },
+      });
+      if (!res) {
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error(`Tracks download error`, err);
+    }
   };
 
   const getAlbums = async () => {
-    const response = await fetch('http://localhost:3000/api/albums');
-    const data = await response.json();
-    console.log('Albums: ', data.albums);
-    return data.albums;
+    try {
+      const response = await fetch('http://localhost:3000/api/albums');
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data.albums;
+    } catch (err) {
+      console.error(`Albmus download error`, err);
+    }
   };
 
   const getAlbumTracks = async (albumId) => {
-    const response = await fetch(
-      `http://localhost:3000/api/album/${albumId}/tracks`
-    );
-    const data = await response.json();
-    console.log('Tracks album: ', data.tracks);
-    return data.tracks;
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/album/${albumId}/tracks`
+      );
+      if (!response) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data.tracks;
+    } catch (err) {
+      console.error(`Album tracks download error`, err);
+    }
   };
 
   return {
@@ -75,14 +107,11 @@ async function fetchTopTracks() {
     const tracks = await api.getTopTracks();
     return tracks;
   } catch (error) {
-    console.error('Download error', error);
     return [];
   }
 }
 
 async function init() {
-  console.log('App started');
-
   token = await api.getToken();
   albums = await api.getAlbums();
 
