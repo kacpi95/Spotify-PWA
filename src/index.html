@@ -1,73 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spotify-pwa</title>
-    <script
-      src="https://kit.fontawesome.com/f90e6be36c.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <header class="header">
-      <a href="#home" class="logo desktop">
-        <img src="../../images/spotiBlack-icon.png" alt="spotify-icon" />
-      </a>
-      <a href="#home" class="logo mobile"></a>
-      <nav class="nav">
-        <ul>
-          <li>
-            <i class="fa-solid fa-house"></i>
-            <a href="#home">Home</a>
-          </li>
-          <li>
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <a href="#search">Search</a>
-          </li>
-          <li>
-            <i class="fa-solid fa-book"></i>
-            <a href="./pages/library.html">Your Library</a>
-          </li>
-          <li>
-            <i class="fa-solid fa-square-plus"></i>
-            <a href="#" id="createPlaylistBtn">Create Playlist</a>
-          </li>
-        </ul>
-        <div class="playlists-section">
-          <h3 class="playlists-header">Your Playlists</h3>
-          <ul id="playlistsList" class="playlists-list">
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <div class="content">
-      <section id="search" class="page">
-        <div class="search-header">
-          <input type="text" id="searchInput" placeholder="Search..." />
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div class="search-results" id="searchResults"></div>
-      </section>
-      <section class="top-tracks-container">
-        <h2>Top Tracks:</h2>
-        <div id="top-tracks" class="top-tracks"></div>
-      </section>
-      <main class="category-container">
-        <h2>Albums:</h2>
-        <div id="category" class="category"></div>
-      </main>
-    </div>
-    <div id="album-popup" class="album-popup">
-      <div class="album-content"></div>
-    </div>
-    <footer class="player"></footer>
-    <div id="description-track" class="description-track">
-      <div class="track-content"></div>
-    </div>
-    <script src="./js/helpers.js"></script>
-    <script src="./js/script.js"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Spotify PWA</title>
+
+		<meta
+			name="description"
+			content="Spotify PWA - progresywna aplikacja webowa do zarządzania playlistami i odtwarzania muzyki."
+		/>
+		<meta name="theme-color" content="#1DB954" />
+		<!-- <link rel="manifest" href="/manifest.json" /> -->
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta
+			name="apple-mobile-web-app-status-bar-style"
+			content="black-translucent"
+		/>
+		<meta name="apple-mobile-web-app-title" content="Spotify PWA" />
+
+		<meta property="og:title" content="Spotify PWA" />
+		<meta
+			property="og:description"
+			content="Progresywna aplikacja webowa inspirowana Spotify."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="http://localhost" />
+		<meta property="og:image" content="./images/spotiBlack-small-icon.png" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Spotify PWA" />
+		<meta
+			name="twitter:description"
+			content="Nowoczesna PWA do zarządzania playlistami muzycznymi."
+		/>
+		<meta name="twitter:image" content="./images/spotiBlack-small-icon.png" />
+
+		<script
+			src="https://kit.fontawesome.com/f90e6be36c.js"
+			crossorigin="anonymous"
+		></script>
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<link rel="stylesheet" href="/css/styles.css" />
+	</head>
+	<body>
+		<header class="header">
+			<a href="#home" class="logo desktop">
+				<img src="../../images/spotiBlack-icon.png" alt="spotify-icon" />
+			</a>
+			<a href="#home" class="logo mobile"></a>
+			<nav class="nav">
+				<ul>
+					<li>
+						<i class="fa-solid fa-house"></i>
+						<a href="#home">Home</a>
+					</li>
+					<li>
+						<i class="fa-solid fa-magnifying-glass"></i>
+						<a href="#search">Search</a>
+					</li>
+					<li>
+						<i class="fa-solid fa-book"></i>
+						<a href="./pages/library.html">Your Library</a>
+					</li>
+					<li>
+						<i class="fa-solid fa-square-plus"></i>
+						<a href="#" id="createPlaylistBtn">Create Playlist</a>
+					</li>
+				</ul>
+				<div class="playlists-section">
+					<h3 class="playlists-header">Your Playlists</h3>
+					<ul id="playlistsList" class="playlists-list"></ul>
+				</div>
+			</nav>
+		</header>
+		<div class="content">
+			<section id="search" class="page">
+				<div class="search-header">
+					<input type="text" id="searchInput" placeholder="Search..." />
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</div>
+				<div class="search-results" id="searchResults"></div>
+			</section>
+			<section class="top-tracks-container">
+				<h2>Top Tracks:</h2>
+				<div id="top-tracks" class="top-tracks"></div>
+			</section>
+			<main class="category-container">
+				<h2>Albums:</h2>
+				<div id="category" class="category"></div>
+			</main>
+		</div>
+		<div id="album-popup" class="album-popup">
+			<div class="album-content"></div>
+		</div>
+		<footer class="player"></footer>
+		<div id="description-track" class="description-track">
+			<div class="track-content"></div>
+		</div>
+		<script src="./js/helpers.js"></script>
+		<script src="./js/script.js"></script>
+	</body>
 </html>
