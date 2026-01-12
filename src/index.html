@@ -47,7 +47,7 @@
 	<body>
 		<header class="header">
 			<a href="#home" class="logo desktop">
-				<img src="../../images/spotiBlack-icon.png" alt="spotify-icon" />
+				<img src="../../images/spotiBlack-icon.png" alt="spotify black icon" />
 			</a>
 			<a href="#home" class="logo mobile"></a>
 			<nav class="nav">
@@ -78,7 +78,13 @@
 		<main class="content">
 			<section id="search" class="page">
 				<div class="search-header">
-					<input type="text" id="searchInput" placeholder="Search..." />
+					<label for="searchInput">Search...</label>
+					<input
+						type="text"
+						name="searchInput"
+						id="searchInput"
+						placeholder="Search..."
+					/>
 					<i class="fa-solid fa-magnifying-glass"></i>
 				</div>
 				<div class="search-results" id="searchResults"></div>
