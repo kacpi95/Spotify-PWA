@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 .library-page {
   padding: $spacing-lg;
   width: 100%;
@@ -6,5 +8,4 @@
     margin-bottom: $spacing-lg;
     font-size: 2.5rem;
   }
-
 }

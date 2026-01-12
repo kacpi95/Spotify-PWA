@@ -1,3 +1,5 @@
+@use '../abstracts/variables' as *;
+
 #top-tracks li,
 #likedSongsContainer li {
   .play-icon {
