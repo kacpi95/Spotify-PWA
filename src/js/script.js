@@ -5,6 +5,7 @@ const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
 import { API_URL } from './config.js';
+import { loadPlaylists, createPlaylist } from './helpers.js';
 
 let albums = [];
 let tracks = [];

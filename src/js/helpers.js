@@ -1,4 +1,4 @@
-function getImagePath(filename) {
+export function getImagePath(filename) {
   const isInPages = window.location.pathname.includes('/pages/');
   if (isInPages) {
     return `../../src/images/${filename}`;
@@ -6,16 +6,16 @@ function getImagePath(filename) {
   return `./images/${filename}`;
 }
 
-function getPlaylists() {
+export function getPlaylists() {
   return JSON.parse(localStorage.getItem('playlists')) || [];
 }
 
-function getPlaylistById(id) {
+export function getPlaylistById(id) {
   const playlists = getPlaylists();
   return playlists.find((el) => el.id === id);
 }
 
-function updatePlaylist(id, updates) {
+export function updatePlaylist(id, updates) {
   const playlists = getPlaylists();
   const index = playlists.findIndex((el) => el.id === id);
 
@@ -25,13 +25,13 @@ function updatePlaylist(id, updates) {
   }
 }
 
-function deletePlaylist(id) {
+export function deletePlaylist(id) {
   let playlists = getPlaylists();
   playlists = playlists.filter((el) => el.id !== id);
   localStorage.setItem('playlists', JSON.stringify(playlists));
 }
 
-function addTrackToPlaylist(playlistId, track) {
+export function addTrackToPlaylist(playlistId, track) {
   const playlists = getPlaylists();
   const playlist = playlists.find((el) => el.id === playlistId);
 
@@ -54,7 +54,7 @@ function addTrackToPlaylist(playlistId, track) {
   return false;
 }
 
-function removeTrackFromPlaylist(playlistId, trackId) {
+export function removeTrackFromPlaylist(playlistId, trackId) {
   const playlists = getPlaylists();
   const playlist = playlists.find((p) => p.id === playlistId);
 
@@ -64,7 +64,7 @@ function removeTrackFromPlaylist(playlistId, trackId) {
   }
 }
 
-function createPlaylist() {
+export function createPlaylist() {
   const playlists = getPlaylists();
 
   const newPlaylist = {
@@ -90,7 +90,7 @@ function createPlaylist() {
   }
 }
 
-function loadPlaylists() {
+export function loadPlaylists() {
   const playlistsListContainer = document.getElementById('playlistsList');
 
   if (!playlistsListContainer) return;
@@ -121,7 +121,7 @@ function loadPlaylists() {
       link.href = `./pages/playlist.html?id=${playlist.id}`;
     }
 
-    link.textContent = `
+    link.innerHTML = `
       <i class="fa-solid fa-list"></i>
       <span>${playlist.name}</span>
     `;

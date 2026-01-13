@@ -1,4 +1,14 @@
 import { API_URL } from './config.js';
+import {
+  getImagePath,
+  getPlaylistById,
+  updatePlaylist,
+  deletePlaylist,
+  addTrackToPlaylist,
+  removeTrackFromPlaylist,
+  createPlaylist,
+  loadPlaylists,
+} from './helpers.js';
 
 const APIController = function () {
   const getToken = async () => {
@@ -74,10 +84,14 @@ if (!currentPlaylist) {
 
 function renderPlaylist() {
   const playlist = getPlaylistById(playlistId);
-
   if (!playlist) return;
 
-  playlistImage.src = playlist.image || getImagePath('plus-icon.png');
+  if (!playlistTracksContainer) return;
+
+  playlistImage.src =
+    playlist.image && playlist.image.startsWith('data:')
+      ? playlist.image
+      : getImagePath('plus-icon.png');
   playlistName.textContent = playlist.name;
   playlistDescription.textContent =
     playlist.description || 'Add a description...';
@@ -86,51 +100,59 @@ function renderPlaylist() {
   playlistSearchResults.innerHTML = '';
 
   if (playlist.tracks.length === 0) {
-    playlistTracksContainer.innerHTML = '<p class="no-tracks">No tracks !</p>';
+    const p = document.createElement('p');
+    p.className = 'no-tracks';
+    p.textContent = 'No tracks!';
+    playlistTracksContainer.innerHTML = '';
+    playlistTracksContainer.appendChild(p);
     return;
   }
 
+  playlistTracksContainer.innerHTML = '';
+
   playlist.tracks.forEach((track, index) => {
-    const trackRow = document.createElement('div');
-    trackRow.classList.add('playlist-track-row');
+    const row = document.createElement('div');
+    row.className = 'playlist-track-row';
+    row.dataset.trackId = track.id;
 
-    trackRow.textContent = `
-      <span class="track-number">${index + 1}</span>
-      <div class="track-info">
-        <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
-        <div>
-          <div class="track-name">${track.name}</div>
-          <div class="track-artist">${
-            track.artists?.map((a) => a.name).join(', ') || ''
-          }</div>
-        </div>
-      </div>
-      <span class="track-album-name">${track.album?.name || ''}</span>
-      <button class="btn-remove-track" data-track-id="${track.id}">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    `;
+    const number = document.createElement('span');
+    number.className = 'track-number';
+    number.textContent = index + 1;
 
-    trackRow.addEventListener('click', (e) => {
-      if (!e.target.closest('.btn-remove-track')) {
-        playTrack(track);
-      }
-    });
+    const info = document.createElement('div');
+    info.className = 'track-info';
 
-    playlistSearchResults.appendChild(trackRow);
-  });
+    const img = document.createElement('img');
+    img.src = track.album?.images?.[0]?.url || '';
+    img.alt = track.name;
 
-  document.querySelectorAll('.btn-remove-track').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const trackId = btn.dataset.trackId;
-      removeTrackFromPlaylist(playlistId, trackId);
-      renderPlaylist();
+    const textBox = document.createElement('div');
 
-      if (playlistSearchInput && playlistSearchInput.value) {
-        playlistSearchInput.dispatchEvent(new Event('input'));
-      }
-    });
+    const name = document.createElement('div');
+    name.className = 'track-name';
+    name.textContent = track.name;
+
+    const artist = document.createElement('div');
+    artist.className = 'track-artist';
+    artist.textContent = track.artists?.map((a) => a.name).join(', ') || '';
+
+    textBox.appendChild(name);
+    textBox.appendChild(artist);
+
+    info.appendChild(img);
+    info.appendChild(textBox);
+
+    const album = document.createElement('span');
+    album.className = 'track-album-name';
+    album.textContent = track.album?.name || '';
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-remove-track';
+    btn.dataset.trackId = track.id;
+    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+
+    row.append(number, info, album, btn);
+    playlistTracksContainer.appendChild(row);
   });
 }
 
@@ -167,7 +189,7 @@ if (playlistSearchInput && playlistSearchResults) {
       const playlist = getPlaylistById(playlistId);
       const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
 
-      trackItem.textContent = `
+      trackItem.innerHTML = `
         <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
         <div class="search-result-info">
           <div class="search-result-name">${track.name}</div>
@@ -216,39 +238,48 @@ if (playlistSearchInput && playlistSearchResults) {
   });
 }
 
-playlistName.addEventListener('blur', () => {
-  updatePlaylist(playlistId, { name: playlistName.textContent });
-  loadPlaylists();
-});
+if (playlistName) {
+  playlistName.addEventListener('input', () => {
+    updatePlaylist(playlistId, { name: playlistName.textContent });
+    loadPlaylists();
+  });
+}
 
-playlistDescription.addEventListener('blur', () => {
-  updatePlaylist(playlistId, { description: playlistDescription.textContent });
-});
+if (playlistDescription) {
+  playlistDescription.addEventListener('input', () => {
+    updatePlaylist(playlistId, {
+      description: playlistDescription.textContent,
+    });
+  });
+}
 
-changeImageBtn.addEventListener('click', () => {
-  imageUpload.click();
-});
+if (changeImageBtn && imageUpload) {
+  changeImageBtn.addEventListener('click', () => {
+    imageUpload.click();
+  });
 
-imageUpload.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) {
+  imageUpload.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (event) => {
-      const imageUrl = event.target.result;
-      playlistImage.src = imageUrl;
-      updatePlaylist(playlistId, { image: imageUrl });
+      playlistImage.src = event.target.result;
+      updatePlaylist(playlistId, { image: event.target.result });
       loadPlaylists();
     };
     reader.readAsDataURL(file);
-  }
-});
+  });
+}
 
-deletePlaylistBtn.addEventListener('click', () => {
-  if (confirm('Are you sure you want to delete this playlist?')) {
-    deletePlaylist(playlistId);
-    window.location.href = 'library.html';
-  }
-});
+if (deletePlaylistBtn) {
+  deletePlaylistBtn.addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete this playlist?')) {
+      deletePlaylist(playlistId);
+      window.location.href = 'library.html';
+    }
+  });
+}
 
 function playTrack(track) {
   const audioPlayer = document.querySelector('.player');
@@ -266,12 +297,14 @@ function playTrack(track) {
   iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
 }
 
-playAllBtn.addEventListener('click', () => {
-  const playlist = getPlaylistById(playlistId);
-  if (playlist.tracks.length > 0) {
-    playTrack(playlist.tracks[0]);
-  }
-});
+if (playAllBtn) {
+  playAllBtn.addEventListener('click', () => {
+    const playlist = getPlaylistById(playlistId);
+    if (playlist?.tracks.length) {
+      playTrack(playlist.tracks[0]);
+    }
+  });
+}
 
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
 if (createPlaylistBtn) {
