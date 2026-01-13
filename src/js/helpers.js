@@ -121,7 +121,7 @@ function loadPlaylists() {
       link.href = `./pages/playlist.html?id=${playlist.id}`;
     }
 
-    link.innerHTML = `
+    link.textContent = `
       <i class="fa-solid fa-list"></i>
       <span>${playlist.name}</span>
     `;

@@ -1,7 +1,9 @@
+import { API_URL } from './config.js';
+
 const APIController = function () {
   const getToken = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/token');
+      const response = await fetch(`${API_URL}/api/token`);
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
@@ -14,7 +16,7 @@ const APIController = function () {
 
   const getTopTracks = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/top-tracks');
+      const response = await fetch(`${API_URL}/api/top-tracks`);
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
@@ -92,7 +94,7 @@ function renderPlaylist() {
     const trackRow = document.createElement('div');
     trackRow.classList.add('playlist-track-row');
 
-    trackRow.innerHTML = `
+    trackRow.textContent = `
       <span class="track-number">${index + 1}</span>
       <div class="track-info">
         <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
@@ -165,7 +167,7 @@ if (playlistSearchInput && playlistSearchResults) {
       const playlist = getPlaylistById(playlistId);
       const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
 
-      trackItem.innerHTML = `
+      trackItem.textContent = `
         <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
         <div class="search-result-info">
           <div class="search-result-name">${track.name}</div>

@@ -4,6 +4,7 @@ const audioPlayer = document.querySelector('.player');
 const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
+import { API_URL } from './config.js';
 
 let albums = [];
 let tracks = [];
@@ -20,7 +21,7 @@ function getImagePath(filename) {
 const APIController = function () {
   const getToken = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/token');
+      const response = await fetch(`${API_URL}/api/token`);
 
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
@@ -35,7 +36,7 @@ const APIController = function () {
 
   const getTopTracks = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/top-tracks');
+      const response = await fetch(`${API_URL}/api/top-tracks`);
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
@@ -64,7 +65,7 @@ const APIController = function () {
 
   const getAlbums = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/albums');
+      const response = await fetch(`${API_URL}/api/albums`);
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
@@ -77,9 +78,7 @@ const APIController = function () {
 
   const getAlbumTracks = async (albumId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/album/${albumId}/tracks`
-      );
+      const response = await fetch(`${API_URL}/api/album/${albumId}/tracks`);
       if (!response) {
         throw new Error(`${response.status} ${response.statusText}`);
       }
