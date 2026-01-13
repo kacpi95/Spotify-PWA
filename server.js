@@ -3,13 +3,33 @@ const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const tokenLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(globalLimiter);
 app.use(cors());
 app.use(express.json());
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
+
+if (!clientId || !clientSecret) {
+  console.error('Missing Spotify .env. Set CLIENT_ID and CLIENT_SECRET');
+}
 
 app.use(express.static(path.join(__dirname, 'src')));
 
@@ -32,12 +52,12 @@ async function getSpotifyToken() {
       grant_type: 'client_credentials',
     }),
   });
-
+ 
   const data = await response.json();
   return data.access_token;
 }
 
-app.get('/api/token', async (req, res) => {
+app.get('/api/token', tokenLimiter, async (req, res) => {
   try {
     const token = await getSpotifyToken();
     res.json({ token });
