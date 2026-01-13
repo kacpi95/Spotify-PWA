@@ -271,7 +271,7 @@ const renderAlbumsList = (albums) => {
     const img = document.createElement('img');
 
     title.textContent = album.name;
-    img.src = album.images[0]?.url || '';
+    img.src = album.images?.[0]?.url ?? '';
     img.alt = album.name;
 
     li.appendChild(img);
@@ -304,7 +304,7 @@ const renderTopTracksList = (tracks) => {
     const icon = document.createElement('img');
 
     title.textContent = track.name;
-    artist.textContent = track.artists.map((a) => a.name).join(', ');
+    artist.textContent = (track.artists ?? []).map((a) => a.name).join(', ');
     img.src = track.album?.images?.[0]?.url;
     img.alt = track.name || 'Unknown track';
     icon.src = getImagePath('play-icon.png');
@@ -400,7 +400,7 @@ const renderDescriptionTrack = (track) => {
   const textContainer = document.createElement('div');
   textContainer.classList.add('track-text-content');
 
-  img.src = track.album?.images?.[0]?.url || '';
+  img.src = track.album?.images?.[0]?.url ?? '';
   title.textContent = track.name;
   artist.textContent = track.artists.map((a) => a.name).join(', ');
   album.textContent = `Album: ${track.album?.name || 'Unknown'}`;

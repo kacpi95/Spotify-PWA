@@ -121,10 +121,15 @@ export function loadPlaylists() {
       link.href = `./pages/playlist.html?id=${playlist.id}`;
     }
 
-    link.innerHTML = `
-      <i class="fa-solid fa-list"></i>
-      <span>${playlist.name}</span>
-    `;
+    link.innerHTML = '';
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-list';
+
+    const text = document.createElement('span');
+    text.textContent = playlist.name;
+
+    link.appendChild(icon);
+    link.appendChild(text);
 
     li.appendChild(link);
     playlistsListContainer.appendChild(li);

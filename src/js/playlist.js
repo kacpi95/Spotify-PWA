@@ -123,7 +123,7 @@ function renderPlaylist() {
     info.className = 'track-info';
 
     const img = document.createElement('img');
-    img.src = track.album?.images?.[0]?.url || '';
+    img.src = track.album?.images?.[0]?.url ?? '';
     img.alt = track.name;
 
     const textBox = document.createElement('div');
@@ -189,24 +189,47 @@ if (playlistSearchInput && playlistSearchResults) {
       const playlist = getPlaylistById(playlistId);
       const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
 
-      trackItem.innerHTML = `
-        <img src="${track.album?.images?.[0]?.url || ''}" alt="${track.name}" />
-        <div class="search-result-info">
-          <div class="search-result-name">${track.name}</div>
-          <div class="search-result-artist">${
-            track.artists?.map((a) => a.name).join(', ') || ''
-          }</div>
-        </div>
-        <button class="btn-add-track ${
-          isInPlaylist ? 'added' : ''
-        }" data-track-id="${track.id}">
-          ${
-            isInPlaylist
-              ? '<i class="fa-solid fa-check"></i> Added'
-              : '<i class="fa-solid fa-plus"></i> Add'
-          }
-        </button>
-      `;
+      trackItem.innerHTML = '';
+
+      const img = document.createElement('img');
+      img.src = track.album?.images?.[0]?.url ?? '';
+      img.alt = track.name;
+
+      const info = document.createElement('div');
+      info.className = 'search-result-info';
+      info.textContent = track.name;
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'search-result-name';
+      nameEl.textContent = track.name;
+
+      const artistEl = document.createElement('div');
+      artistEl.className = 'search-result-artist';
+      artistEl.textContent = track.artists?.map((a) => a.name).join(', ') || '';
+
+      info.appendChild(nameEl);
+      info.appendChild(artistEl);
+
+      const btn = document.createElement('button');
+      btn.className = 'btn-add-track';
+      btn.dataset.trackId = track.id;
+
+      const icon = document.createElement('i');
+      const label = document.createElement('span');
+
+      function buttonState(added) {
+        btn.classList.toggle('added', added);
+
+        icon.className = added ? 'fa-solid fa-check' : 'fa-solid fa-plus';
+
+        label.textContent = added ? 'Added' : 'Add';
+
+        btn.replaceChildren(icon, label);
+      }
+
+      buttonState(isInPlaylist);
+
+      trackItem.append(img, info, btn);
 
       const addBtn = trackItem.querySelector('.btn-add-track');
       addBtn.addEventListener('click', (e) => {
