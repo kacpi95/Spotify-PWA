@@ -8,6 +8,7 @@ import {
   removeTrackFromPlaylist,
   createPlaylist,
   loadPlaylists,
+  debounce,
 } from './helpers.js';
 
 const APIController = function () {
@@ -156,109 +157,112 @@ function renderPlaylist() {
   });
 }
 
-if (playlistSearchInput && playlistSearchResults) {
-  playlistSearchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
+function handlePlayListSearch(queryRaw) {
+  const query = (queryRaw ?? '').toLowerCase().trim();
 
-    if (!query) {
-      playlistSearchResults.innerHTML = '';
-      return;
-    }
+  playlistSearchResults.innerHTML = '';
+  if (!query) {
+    return;
+  }
 
-    const filteredTracks = tracks.filter((track) => {
-      return (
-        track.name.toLowerCase().includes(query) ||
-        track.artists.some((artist) =>
-          artist.name.toLowerCase().includes(query)
-        )
-      );
-    });
-
-    playlistSearchResults.innerHTML = '';
-
-    if (filteredTracks.length === 0) {
-      playlistSearchResults.innerHTML =
-        '<p class="no-results">No results found</p>';
-      return;
-    }
-
-    filteredTracks.forEach((track) => {
-      const trackItem = document.createElement('div');
-      trackItem.classList.add('search-result-item');
-
-      const playlist = getPlaylistById(playlistId);
-      const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
-
-      trackItem.innerHTML = '';
-
-      const img = document.createElement('img');
-      img.src = track.album?.images?.[0]?.url ?? '';
-      img.alt = track.name;
-
-      const info = document.createElement('div');
-      info.className = 'search-result-info';
-      info.textContent = track.name;
-
-      const nameEl = document.createElement('div');
-      nameEl.className = 'search-result-name';
-      nameEl.textContent = track.name;
-
-      const artistEl = document.createElement('div');
-      artistEl.className = 'search-result-artist';
-      artistEl.textContent = track.artists?.map((a) => a.name).join(', ') || '';
-
-      info.appendChild(nameEl);
-      info.appendChild(artistEl);
-
-      const btn = document.createElement('button');
-      btn.className = 'btn-add-track';
-      btn.dataset.trackId = track.id;
-
-      const icon = document.createElement('i');
-      const label = document.createElement('span');
-
-      function buttonState(added) {
-        btn.classList.toggle('added', added);
-
-        icon.className = added ? 'fa-solid fa-check' : 'fa-solid fa-plus';
-
-        label.textContent = added ? 'Added' : 'Add';
-
-        btn.replaceChildren(icon, label);
-      }
-
-      buttonState(isInPlaylist);
-
-      trackItem.append(img, info, btn);
-
-      const addBtn = trackItem.querySelector('.btn-add-track');
-      addBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-
-        if (!isInPlaylist) {
-          const success = addTrackToPlaylist(playlistId, track);
-          if (success) {
-            addBtn.classList.add('added');
-            addBtn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
-            renderPlaylist();
-            showToast(`Added "${track.name}" to playlist`);
-          }
-        } else {
-          removeTrackFromPlaylist(playlistId, track.id);
-          addBtn.classList.remove('added');
-          addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
-          renderPlaylist();
-          showToast(`Removed "${track.name}" from playlist`);
-        }
-      });
-
-      trackItem.addEventListener('click', () => {
-        playTrack(track);
-      });
-
-      playlistSearchResults.appendChild(trackItem);
-    });
+  const filteredTracks = tracks.filter((track) => {
+    return (
+      track.name?.toLowerCase().includes(query) ||
+      (track.artists ?? []).some((artist) =>
+        artist?.name?.toLowerCase().includes(query)
+      )
+    );
   });
+
+  if (filteredTracks.length === 0) {
+    const p = document.createElement('p');
+    p.className = 'no-results';
+    p.textContent = 'No results found';
+    playlistSearchResults.appendChild(p);
+    return;
+  }
+
+  filteredTracks.forEach((track) => {
+    const trackItem = document.createElement('div');
+    trackItem.classList.add('search-result-item');
+
+    const playlist = getPlaylistById(playlistId);
+    const isInPlaylist = playlist.tracks.some((t) => t.id === track.id);
+
+    trackItem.innerHTML = '';
+
+    const img = document.createElement('img');
+    img.src = track.album?.images?.[0]?.url ?? '';
+    img.alt = track.name;
+
+    const info = document.createElement('div');
+    info.className = 'search-result-info';
+    info.textContent = track.name;
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'search-result-name';
+    nameEl.textContent = track.name;
+
+    const artistEl = document.createElement('div');
+    artistEl.className = 'search-result-artist';
+    artistEl.textContent = track.artists?.map((a) => a.name).join(', ') || '';
+
+    info.appendChild(nameEl);
+    info.appendChild(artistEl);
+
+    const btn = document.createElement('button');
+    btn.className = 'btn-add-track';
+    btn.dataset.trackId = track.id;
+
+    const icon = document.createElement('i');
+    const label = document.createElement('span');
+
+    function buttonState(added) {
+      btn.classList.toggle('added', added);
+
+      icon.className = added ? 'fa-solid fa-check' : 'fa-solid fa-plus';
+
+      label.textContent = added ? 'Added' : 'Add';
+
+      btn.replaceChildren(icon, label);
+    }
+
+    buttonState(isInPlaylist);
+
+    trackItem.append(img, info, btn);
+
+    const addBtn = trackItem.querySelector('.btn-add-track');
+    addBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      if (!isInPlaylist) {
+        const success = addTrackToPlaylist(playlistId, track);
+        if (success) {
+          addBtn.classList.add('added');
+          addBtn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+          renderPlaylist();
+          showToast(`Added "${track.name}" to playlist`);
+        }
+      } else {
+        removeTrackFromPlaylist(playlistId, track.id);
+        addBtn.classList.remove('added');
+        addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
+        renderPlaylist();
+        showToast(`Removed "${track.name}" from playlist`);
+      }
+    });
+
+    trackItem.addEventListener('click', () => {
+      playTrack(track);
+    });
+
+    playlistSearchResults.appendChild(trackItem);
+  });
+}
+
+if (playlistSearchInput && playlistSearchResults) {
+  const debounced = debounce((e) => handlePlayListSearch(e.target.value), 300);
+  playlistSearchInput.addEventListener('input', debounced);
 }
 
 if (playlistName) {

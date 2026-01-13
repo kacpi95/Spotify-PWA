@@ -1,3 +1,11 @@
+export function debounce(fn, delay = 300) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
 export function getImagePath(filename) {
   const isInPages = window.location.pathname.includes('/pages/');
   if (isInPages) {
