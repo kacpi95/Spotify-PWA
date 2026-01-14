@@ -72,6 +72,27 @@ export function removeTrackFromPlaylist(playlistId, trackId) {
   }
 }
 
+export function showToast(message, duration = 2500) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => toast.classList.add('show'));
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.addEventListener(
+      'transitionend',
+      () => {
+        toast.remove();
+      },
+      { once: true }
+    );
+  }, duration);
+}
+
 export function createPlaylist() {
   const playlists = getPlaylists();
 
