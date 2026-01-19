@@ -5,7 +5,12 @@ const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
 import { API_URL } from './config.js';
-import { loadPlaylists, createPlaylist, debounce } from './helpers.js';
+import {
+  loadPlaylists,
+  createPlaylist,
+  debounce,
+  showToast,
+} from './helpers.js';
 
 let albums = [];
 let tracks = [];
@@ -112,6 +117,7 @@ async function fetchTopTracks() {
 }
 
 async function init() {
+  await requestNotification();
   token = await api.getToken();
   albums = await api.getAlbums();
 
@@ -126,6 +132,30 @@ async function init() {
   }
   loadPlaylists();
   loadLibrary();
+}
+
+async function requestNotification() {
+  if (!('Notification' in window)) return;
+
+  if (Notification.permission === 'granted') {
+    showToast('Notifications are enabled');
+  }
+  else if (Notification.permission === 'default') {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        showToast('Notifications enabled');
+      } else {
+        showToast('Notifications denied');
+      }
+    } catch (err) {
+      console.error('Notification request failed', err);
+      showToast('Notification error');
+    }
+  }
+  else if (Notification.permission === 'denied') {
+    showToast('Notifications are blocked in your browser');
+  }
 }
 
 function loadLibrary() {
@@ -346,7 +376,7 @@ const renderDescriptionTrack = (track) => {
 
   trackContent.style.setProperty(
     '--bg-image',
-    `url(${track.album?.images?.[0]?.url || ''})`
+    `url(${track.album?.images?.[0]?.url || ''})`,
   );
 
   const topControls = document.createElement('div');
@@ -360,7 +390,7 @@ const renderDescriptionTrack = (track) => {
   saveIcon.height = 20;
 
   const isSaved = (JSON.parse(localStorage.getItem('likedSongs')) || []).some(
-    (t) => t.id === track.id
+    (t) => t.id === track.id,
   );
   saveIcon.src = isSaved
     ? getImagePath('check-icon.png')
@@ -434,7 +464,7 @@ const renderAlbumPopup = async (album) => {
 
   albumContent.style.setProperty(
     '--bg-image',
-    `url(${album.images[0]?.url || ''})`
+    `url(${album.images[0]?.url || ''})`,
   );
 
   const topControls = document.createElement('div');
@@ -451,7 +481,7 @@ const renderAlbumPopup = async (album) => {
   saveIcon.width = 20;
   saveIcon.height = 20;
   const isSaved = (JSON.parse(localStorage.getItem('savedAlbums')) || []).some(
-    (a) => a.id === album.id
+    (a) => a.id === album.id,
   );
   saveIcon.src = isSaved
     ? getImagePath('check-icon.png')
@@ -545,16 +575,16 @@ function handleSearch(queryRaw) {
     (album) =>
       album.name.toLowerCase().includes(query) ||
       (album.artists ?? []).some((artist) =>
-        artist?.name?.toLowerCase().includes(query)
-      )
+        artist?.name?.toLowerCase().includes(query),
+      ),
   );
 
   const filteredTracks = tracks.filter(
     (track) =>
       track.name?.toLowerCase().includes(query) ||
       (track.artists ?? []).some((artist) =>
-        artist?.name?.toLowerCase().includes(query)
-      )
+        artist?.name?.toLowerCase().includes(query),
+      ),
   );
 
   searchResults.innerHTML = '';

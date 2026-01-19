@@ -73,6 +73,22 @@ export function removeTrackFromPlaylist(playlistId, trackId) {
 }
 
 export function showToast(message, duration = 2500) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('Spotify Clone', {
+      body: message,
+      icon: './images/spotiBlack-icon.png',
+    });
+  } else if (Notification.permission === 'default') {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        new Notification('Spotify Clone', {
+          body: message,
+          icon: './images/spotiBlack-icon.png',
+        });
+      }
+    });
+  }
+
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = message;
@@ -88,7 +104,7 @@ export function showToast(message, duration = 2500) {
       () => {
         toast.remove();
       },
-      { once: true }
+      { once: true },
     );
   }, duration);
 }
