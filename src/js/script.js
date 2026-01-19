@@ -15,6 +15,19 @@ import {
 let albums = [];
 let tracks = [];
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./sw.js')
+      .then((reg) => {
+        console.log('SW registered', reg.scope);
+      })
+      .catch((err) => {
+        console.error('SW registration failed', err);
+      });
+  });
+}
+
 function getImagePath(filename) {
   const isInPages = window.location.pathname.includes('/pages/');
 
@@ -139,8 +152,7 @@ async function requestNotification() {
 
   if (Notification.permission === 'granted') {
     showToast('Notifications are enabled');
-  }
-  else if (Notification.permission === 'default') {
+  } else if (Notification.permission === 'default') {
     try {
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
@@ -152,8 +164,7 @@ async function requestNotification() {
       console.error('Notification request failed', err);
       showToast('Notification error');
     }
-  }
-  else if (Notification.permission === 'denied') {
+  } else if (Notification.permission === 'denied') {
     showToast('Notifications are blocked in your browser');
   }
 }
