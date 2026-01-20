@@ -18,7 +18,7 @@ let tracks = [];
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('./sw.js')
+      .register('/sw.js', { scope: '/' })
       .then((reg) => {
         console.log('SW registered', reg.scope);
       })
@@ -29,12 +29,7 @@ if ('serviceWorker' in navigator) {
 }
 
 function getImagePath(filename) {
-  const isInPages = window.location.pathname.includes('/pages/');
-
-  if (isInPages) {
-    return `../../src/images/${filename}`;
-  }
-  return `./images/${filename}`;
+  return `/images/${filename}`;
 }
 
 const APIController = function () {

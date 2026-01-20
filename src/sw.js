@@ -3,6 +3,7 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './manifest.json',
   '/pages/playlist.html',
+  '/pages/library.html',
   '/css/styles.css',
   '/js/helpers.js',
   '/js/script.js',

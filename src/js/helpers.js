@@ -7,11 +7,7 @@ export function debounce(fn, delay = 300) {
 }
 
 export function getImagePath(filename) {
-  const isInPages = window.location.pathname.includes('/pages/');
-  if (isInPages) {
-    return `../../src/images/${filename}`;
-  }
-  return `./images/${filename}`;
+  return `/images/${filename}`;
 }
 
 export function getPlaylists() {
