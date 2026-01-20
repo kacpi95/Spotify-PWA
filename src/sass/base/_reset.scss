@@ -8,7 +8,7 @@
 
 body {
   display: flex;
-  height: 100vh;
+  height: 100%;
   font-family: 'Inter', sans-serif;
   color: $text-color;
   background-color: $bg-color-second;
@@ -18,4 +18,5 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }

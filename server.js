@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 
 async function getSpotifyToken() {
   const authHeader = Buffer.from(`${clientId}:${clientSecret}`).toString(
-    'base64'
+    'base64',
   );
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -52,7 +52,7 @@ async function getSpotifyToken() {
       grant_type: 'client_credentials',
     }),
   });
- 
+
   const data = await response.json();
   return data.access_token;
 }
@@ -77,7 +77,7 @@ app.get('/api/genres', async (req, res) => {
         headers: {
           Authorization: 'Bearer ' + token,
         },
-      }
+      },
     );
 
     const data = await response.json();
@@ -98,7 +98,7 @@ app.get('/api/top-tracks', async (req, res) => {
         headers: {
           Authorization: 'Bearer ' + token,
         },
-      }
+      },
     );
 
     const data = await response.json();
@@ -116,7 +116,7 @@ app.get('/api/albums', async (req, res) => {
       'https://api.spotify.com/v1/browse/new-releases?limit=20',
       {
         headers: { Authorization: 'Bearer ' + token },
-      }
+      },
     );
     const data = await response.json();
     res.json({ albums: data.albums.items });
@@ -135,7 +135,7 @@ app.get('/api/album/:id/tracks', async (req, res) => {
       `https://api.spotify.com/v1/albums/${albumId}/tracks`,
       {
         headers: { Authorization: 'Bearer ' + token },
-      }
+      },
     );
     const data = await response.json();
     res.json({ tracks: data.items });
