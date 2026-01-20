@@ -155,6 +155,10 @@ function renderPlaylist() {
 
     row.append(number, info, album, btn);
     playlistTracksContainer.appendChild(row);
+
+    row.addEventListener('click', () => {
+      playTrack(track);
+    });
   });
 }
 
@@ -170,7 +174,7 @@ function handlePlayListSearch(queryRaw) {
     return (
       track.name?.toLowerCase().includes(query) ||
       (track.artists ?? []).some((artist) =>
-        artist?.name?.toLowerCase().includes(query)
+        artist?.name?.toLowerCase().includes(query),
       )
     );
   });
@@ -310,7 +314,7 @@ if (deletePlaylistBtn) {
 }
 
 function playTrack(track) {
-  const audioPlayer = document.querySelector('.player');
+  const audioPlayer = document.getElementById('audio-player');
   let iframe = audioPlayer.querySelector('iframe');
 
   if (!iframe) {

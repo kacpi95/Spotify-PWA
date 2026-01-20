@@ -52,7 +52,6 @@ async function getSpotifyToken() {
       grant_type: 'client_credentials',
     }),
   });
-
   const data = await response.json();
   return data.access_token;
 }
