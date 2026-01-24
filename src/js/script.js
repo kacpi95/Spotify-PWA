@@ -1,9 +1,4 @@
-import {
-  loadPlaylists,
-  createPlaylist,
-  debounce,
-  showToast,
-} from './helpers.js';
+import { loadPlaylists, createPlaylist, debounce } from './helpers.js';
 import { getToken, getAlbums, getTopTracks } from './services/api.service.js';
 import {
   renderAlbumsList,
@@ -12,9 +7,11 @@ import {
 import { mainElements } from './utils/selectors/mainSelectors.js';
 import { handleSearch } from './utils/library.js';
 import { loadLibrary } from './utils/renderers/mainRenderers.js';
+import { requestNotification } from './services/notifications.service.js';
 
 let albums = [];
 let tracks = [];
+let token;
 
 const { mainSearchInput, mainSearchResults, mainCreatePlaylistBtn } =
   mainElements;
@@ -31,8 +28,6 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
-
-let token;
 
 async function init() {
   const { mainCategory, mainTopTracks } = mainElements;
@@ -52,28 +47,6 @@ async function init() {
 
   loadPlaylists();
   loadLibrary();
-}
-
-async function requestNotification() {
-  if (!('Notification' in window)) return;
-
-  if (Notification.permission === 'granted') {
-    showToast('Notifications are enabled');
-  } else if (Notification.permission === 'default') {
-    try {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        showToast('Notifications enabled');
-      } else {
-        showToast('Notifications denied');
-      }
-    } catch (err) {
-      console.error('Notification request failed', err);
-      showToast('Notification error');
-    }
-  } else if (Notification.permission === 'denied') {
-    showToast('Notifications are blocked in your browser');
-  }
 }
 
 const albumPopupEl = document.querySelector('#album-popup');
