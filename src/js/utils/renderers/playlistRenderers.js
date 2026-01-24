@@ -1,4 +1,8 @@
-export function renderPlaylist() {
+import { getImagePath } from '../photoPath.js';
+import { playTrack } from '../../services/player.service.js';
+import { getPlaylistById } from '../../helpers.js';
+
+export function renderPlaylist(playlistId) {
   const playlist = getPlaylistById(playlistId);
   if (!playlist) return;
 

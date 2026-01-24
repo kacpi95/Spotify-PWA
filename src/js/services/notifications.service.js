@@ -1,4 +1,4 @@
-import { showToast } from '../helpers';
+import { showToast } from '../helpers.js';
 
 export async function requestNotification() {
   if (!('Notification' in window)) return;

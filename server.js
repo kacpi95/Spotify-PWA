@@ -3,24 +3,24 @@ const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
 const path = require('path');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 
 const app = express();
-const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// const globalLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   limit: 100,
+//   standardHeaders: true,
+//   legacyHeaders: false,
+// });
 
-const tokenLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: true,
-  legacyHeaders: false,
-});
+// const tokenLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   limit: 10,
+//   standardHeaders: true,
+//   legacyHeaders: false,
+// });
 
-app.use(globalLimiter);
+// app.use(globalLimiter);
 app.use(cors());
 app.use(express.json());
 
@@ -52,11 +52,20 @@ async function getSpotifyToken() {
       grant_type: 'client_credentials',
     }),
   });
+
   const data = await response.json();
   return data.access_token;
 }
 
-app.get('/api/token', tokenLimiter, async (req, res) => {
+// app.get('/api/token', tokenLimiter, async (req, res) => {
+//   try {
+//     const token = await getSpotifyToken();
+//     res.json({ token });
+//   } catch (error) {
+//     res.status(500).json({ error: 'Failed to get token' });
+//   }
+// });
+app.get('/api/token', async (req, res) => {
   try {
     const token = await getSpotifyToken();
     res.json({ token });
