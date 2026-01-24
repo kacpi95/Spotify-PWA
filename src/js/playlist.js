@@ -10,6 +10,7 @@ import { playTrack } from './services/player.service.js';
 import { getTopTracks } from './services/api.service.js';
 import { renderPlaylist } from './utils/renderers/playlistRenderers.js';
 import { handlePlayListSearch } from './utils/library.js';
+import { playlistElements } from './utils/selectors/playlistSelectors.js';
 
 let tracks = [];
 
@@ -21,20 +22,18 @@ async function loadData() {
   }
 }
 
-const playlistImage = document.getElementById('playlistImage');
-const playlistName = document.getElementById('playlistName');
-const playlistDescription = document.getElementById('playlistDescription');
-const playlistTrackCount = document.getElementById('playlistTrackCount');
-const playlistTracksContainer = document.getElementById('playlistTracks');
-const changeImageBtn = document.getElementById('changeImageBtn');
-const imageUpload = document.getElementById('imageUpload');
-const deletePlaylistBtn = document.getElementById('deletePlaylistBtn');
-const playAllBtn = document.getElementById('playAllBtn');
-const playlistSearchInput = document.getElementById('playlistSearchInput');
-const playlistSearchResults = document.getElementById('playlistSearchResults');
-
 const urlParams = new URLSearchParams(window.location.search);
 const playlistId = urlParams.get('id');
+const {
+  playlistSearchInput,
+  playlistSearchResults,
+  playlistName,
+  playlistDescription,
+  playlistChangeImageBtn,
+  playlistImageUpload,
+  playlistDeletePlaylistBtn,
+  playlistPlayAllBtn,
+} = playlistElements;
 
 if (!playlistId) {
   alert('Playlist not found!');
@@ -51,7 +50,10 @@ if (!currentPlaylist) {
 renderPlaylist(playlistId);
 
 if (playlistSearchInput && playlistSearchResults) {
-  const debounced = debounce((e) => handlePlayListSearch(e.target.value), 300);
+  const debounced = debounce(
+    (e) => handlePlayListSearch(e.target.value, playlistId, tracks),
+    300,
+  );
   playlistSearchInput.addEventListener('input', debounced);
 }
 
@@ -70,18 +72,18 @@ if (playlistDescription) {
   });
 }
 
-if (changeImageBtn && imageUpload) {
-  changeImageBtn.addEventListener('click', () => {
-    imageUpload.click();
+if (playlistChangeImageBtn && playlistImageUpload) {
+  playlistChangeImageBtn.addEventListener('click', () => {
+    playlistImageUpload.click();
   });
 
-  imageUpload.addEventListener('change', (e) => {
+  playlistImageUpload.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = (event) => {
-      playlistImage.src = event.target.result;
+      playlistImageUpload.src = event.target.result;
       updatePlaylist(playlistId, { image: event.target.result });
       loadPlaylists();
     };
@@ -89,8 +91,8 @@ if (changeImageBtn && imageUpload) {
   });
 }
 
-if (deletePlaylistBtn) {
-  deletePlaylistBtn.addEventListener('click', () => {
+if (playlistDeletePlaylistBtn) {
+  playlistDeletePlaylistBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to delete this playlist?')) {
       deletePlaylist(playlistId);
       window.location.href = 'library.html';
@@ -98,8 +100,8 @@ if (deletePlaylistBtn) {
   });
 }
 
-if (playAllBtn) {
-  playAllBtn.addEventListener('click', () => {
+if (playlistPlayAllBtn) {
+  playlistPlayAllBtn.addEventListener('click', () => {
     const playlist = getPlaylistById(playlistId);
     if (playlist?.tracks.length) {
       playTrack(playlist.tracks[0]);
@@ -117,7 +119,7 @@ if (createPlaylistBtn) {
 
 async function init() {
   await loadData();
-  renderPlaylist();
+  renderPlaylist(playlistId);
   loadPlaylists();
 }
 init();

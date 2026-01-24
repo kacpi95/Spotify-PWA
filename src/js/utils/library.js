@@ -9,8 +9,10 @@ import {
   showToast,
   removeTrackFromPlaylist,
   addTrackToPlaylist,
+  getPlaylistById,
 } from '../helpers.js';
 import { renderPlaylist } from './renderers/playlistRenderers.js';
+import { playlistElements } from './selectors/playlistSelectors.js';
 
 export function toggleLikeTrack(track) {
   const key = 'likedSongs';
@@ -144,13 +146,15 @@ export function handleSearch(queryRaw, albums, tracks) {
   }
 }
 
-export function handlePlayListSearch(queryRaw) {
+export function handlePlayListSearch(queryRaw, playlistId, tracks) {
   const query = (queryRaw ?? '').toLowerCase().trim();
+  const { playlistSearchResults } = playlistElements;
 
   playlistSearchResults.innerHTML = '';
-  if (!query) {
-    return;
-  }
+  if (!query) return;
+
+  const playlist = getPlaylistById(playlistId);
+  if (!playlist) return;
 
   const filteredTracks = tracks.filter((track) => {
     return (

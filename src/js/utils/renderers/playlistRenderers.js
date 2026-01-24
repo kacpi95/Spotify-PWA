@@ -1,9 +1,18 @@
 import { getImagePath } from '../photoPath.js';
 import { playTrack } from '../../services/player.service.js';
 import { getPlaylistById } from '../../helpers.js';
+import { playlistElements } from '../selectors/playlistSelectors.js';
 
 export function renderPlaylist(playlistId) {
   const playlist = getPlaylistById(playlistId);
+  const {
+    playlistImage,
+    playlistTracksContainer,
+    playlistName,
+    playlistDescription,
+    playlistTrackCount,
+    playlistSearchResults,
+  } = playlistElements;
   if (!playlist) return;
 
   if (!playlistTracksContainer) return;
@@ -66,12 +75,8 @@ export function renderPlaylist(playlistId) {
     album.className = 'track-album-name';
     album.textContent = track.album?.name || '';
 
-    const btn = document.createElement('button');
-    btn.className = 'btn-remove-track';
-    btn.dataset.trackId = track.id;
-    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
 
-    row.append(number, info, album, btn);
+    row.append(number, info, album);
     playlistTracksContainer.appendChild(row);
 
     row.addEventListener('click', () => {
