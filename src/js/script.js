@@ -1,8 +1,3 @@
-const category = document.querySelector('#category');
-const topTracks = document.querySelector('#top-tracks');
-const searchInput = document.querySelector('#searchInput');
-const searchResults = document.querySelector('#searchResults');
-const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
 import {
   loadPlaylists,
   createPlaylist,
@@ -22,9 +17,13 @@ import {
   renderAlbumPopup,
   renderTopTracksList,
 } from './utils/renderers/mainRenderers.js';
+import { mainElements } from './utils/selectors/mainSelectors.js';
+import { getImagePath } from './utils/photoPath.js';
 
 let albums = [];
 let tracks = [];
+const { mainSearchInput, mainSearchResults, mainCreatePlaylistBtn } =
+  mainElements;
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -39,24 +38,21 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-function getImagePath(filename) {
-  return `/images/${filename}`;
-}
-
 let token;
 
 async function init() {
+  const { mainCategory, mainTopTracks } = mainElements;
   await requestNotification();
 
   token = await getToken();
   albums = await getAlbums();
   tracks = await getTopTracks();
 
-  if (category) {
+  if (mainCategory) {
     renderAlbumsList(albums);
   }
 
-  if (topTracks) {
+  if (mainTopTracks) {
     renderTopTracksList(tracks);
   }
 
@@ -210,15 +206,10 @@ if (albumPopupEl) {
   });
 }
 
-renderAlbumsList();
-renderTopTracksList();
-renderDescriptionTrack();
-renderAlbumPopup();
-
 function handleSearch(queryRaw) {
   const query = (queryRaw ?? '').toLowerCase().trim();
 
-  searchResults.innerHTML = '';
+  mainSearchResults.innerHTML = '';
   if (!query) {
     return;
   }
@@ -239,13 +230,13 @@ function handleSearch(queryRaw) {
       ),
   );
 
-  searchResults.innerHTML = '';
+  mainSearchResults.innerHTML = '';
 
   if (filteredAlbums.length > 0) {
     const albumsHeader = document.createElement('h3');
     albumsHeader.textContent = 'Albums';
     albumsHeader.classList.add('search-section-header');
-    searchResults.appendChild(albumsHeader);
+    mainSearchResults.appendChild(albumsHeader);
 
     const albumsContainer = document.createElement('div');
     albumsContainer.classList.add('search-albums-container');
@@ -276,7 +267,7 @@ function handleSearch(queryRaw) {
     const tracksHeader = document.createElement('h3');
     tracksHeader.textContent = 'Tracks: ';
     tracksHeader.classList.add('search-section-track');
-    searchResults.appendChild(tracksHeader);
+    mainSearchResults.appendChild(tracksHeader);
 
     const tracksContainer = document.createElement('div');
     tracksContainer.classList.add('search-tracks-container');
@@ -300,17 +291,17 @@ function handleSearch(queryRaw) {
       tracksContainer.appendChild(div);
     });
 
-    searchResults.appendChild(tracksContainer);
+    mainSearchResults.appendChild(tracksContainer);
   }
 }
 
-if (searchInput && searchResults) {
+if (mainSearchInput && mainSearchResults) {
   const debounced = debounce((e) => handleSearch(e.target.value), 300);
-  searchInput.addEventListener('input', debounced);
+  mainSearchInput.addEventListener('input', debounced);
 }
 
-if (createPlaylistBtn) {
-  createPlaylistBtn.addEventListener('click', (e) => {
+if (mainCreatePlaylistBtn) {
+  mainCreatePlaylistBtn.addEventListener('click', (e) => {
     e.preventDefault();
     createPlaylist();
   });

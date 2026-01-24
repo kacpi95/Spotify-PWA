@@ -1,4 +1,9 @@
+import { mainElements } from '../selectors/mainSelectors.js';
+import { getImagePath } from '../photoPath.js';
+
 export function renderAlbumsList(albums) {
+  if (!albums || !Array.isArray(albums) || albums.length === 0) return;
+  const { mainCategory } = mainElements;
   const ulList = document.createElement('ul');
 
   albums.forEach((album) => {
@@ -20,13 +25,15 @@ export function renderAlbumsList(albums) {
     ulList.appendChild(li);
   });
 
-  category.appendChild(ulList);
+  mainCategory.appendChild(ulList);
 }
 
 export function renderTopTracksList(tracks) {
   if (!tracks || !Array.isArray(tracks)) return;
 
-  topTracks.innerHTML = '';
+  const { mainTopTracks } = mainElements;
+
+  mainTopTracks.innerHTML = '';
   const ulList = document.createElement('ul');
 
   tracks.forEach((track) => {
@@ -59,7 +66,7 @@ export function renderTopTracksList(tracks) {
     ulList.appendChild(li);
   });
 
-  topTracks.appendChild(ulList);
+  mainTopTracks.appendChild(ulList);
 }
 
 export function renderDescriptionTrack(track) {
