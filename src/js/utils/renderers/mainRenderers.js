@@ -1,5 +1,83 @@
 import { mainElements } from '../selectors/mainSelectors.js';
 import { getImagePath } from '../photoPath.js';
+import { playTrack } from '../../services/player.service.js';
+import { toggleLikeTrack, toggleSaveAlbum } from '../library.js';
+import { getAlbumTracks } from '../../services/api.service.js';
+
+export function loadLibrary() {
+  const likedSongsContainer = document.getElementById('likedSongsContainer');
+  const savedAlbumsContainer = document.getElementById('savedAlbumsContainer');
+
+  const likedSongs = JSON.parse(localStorage.getItem('likedSongs')) || [];
+  const savedAlbums = JSON.parse(localStorage.getItem('savedAlbums')) || [];
+
+  if (likedSongsContainer) {
+    likedSongsContainer.innerHTML = '';
+
+    const ulList = document.createElement('ul');
+
+    likedSongs.forEach((track) => {
+      const li = document.createElement('li');
+      const title = document.createElement('h3');
+      const artist = document.createElement('h5');
+      const img = document.createElement('img');
+      const icon = document.createElement('img');
+
+      title.textContent = track.name;
+      artist.textContent = track.artists?.map((a) => a.name).join(', ') || '';
+      img.src = track.album?.images?.[0]?.url || '';
+      img.alt = track.name || 'Unknown track';
+      icon.src = getImagePath('play-icon.png');
+      icon.alt = 'play-icon';
+      icon.classList.add('play-icon');
+
+      li.appendChild(img);
+      li.appendChild(title);
+      li.appendChild(artist);
+      li.appendChild(icon);
+
+      img.addEventListener('click', () => {
+        renderDescriptionTrack(track);
+      });
+
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        playTrack(track);
+      });
+
+      ulList.appendChild(li);
+    });
+
+    likedSongsContainer.appendChild(ulList);
+  }
+
+  if (savedAlbumsContainer) {
+    savedAlbumsContainer.innerHTML = '';
+
+    const ulList = document.createElement('ul');
+
+    savedAlbums.forEach((album) => {
+      const li = document.createElement('li');
+      const title = document.createElement('h3');
+      const img = document.createElement('img');
+
+      title.textContent = album.name;
+      img.src = album.images?.[0]?.url || '';
+      img.alt = album.name;
+
+      li.appendChild(img);
+      li.appendChild(title);
+
+      li.addEventListener('click', () => {
+        renderAlbumPopup(album);
+      });
+
+      ulList.appendChild(li);
+    });
+
+    savedAlbumsContainer.appendChild(ulList);
+  }
+}
 
 export function renderAlbumsList(albums) {
   if (!albums || !Array.isArray(albums) || albums.length === 0) return;
