@@ -11,6 +11,7 @@ import {
   debounce,
   showToast,
 } from './helpers.js';
+import { playTrack } from './services/player.service.js';
 
 const APIController = function () {
   const getToken = async () => {
@@ -311,22 +312,6 @@ if (deletePlaylistBtn) {
       window.location.href = 'library.html';
     }
   });
-}
-
-function playTrack(track) {
-  const audioPlayer = document.getElementById('audio-player');
-  let iframe = audioPlayer.querySelector('iframe');
-
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.width = '500';
-    iframe.height = '80';
-    iframe.frameBorder = '0';
-    iframe.allow = 'encrypted-media';
-    audioPlayer.appendChild(iframe);
-  }
-
-  iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
 }
 
 if (playAllBtn) {

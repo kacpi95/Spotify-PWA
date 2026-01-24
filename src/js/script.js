@@ -1,6 +1,5 @@
 const category = document.querySelector('#category');
 const topTracks = document.querySelector('#top-tracks');
-const audioPlayer = document.querySelector('.player');
 const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
@@ -11,6 +10,7 @@ import {
   debounce,
   showToast,
 } from './helpers.js';
+import { playTrack } from './services/player.service.js';
 
 let albums = [];
 let tracks = [];
@@ -202,17 +202,7 @@ function loadLibrary() {
 
       icon.addEventListener('click', (e) => {
         e.stopPropagation();
-        const audioPlayer = document.querySelector('.player');
-        let iframe = audioPlayer.querySelector('iframe');
-        if (!iframe) {
-          iframe = document.createElement('iframe');
-          iframe.width = '500';
-          iframe.height = '80';
-          iframe.frameBorder = '0';
-          iframe.allow = 'encrypted-media';
-          audioPlayer.appendChild(iframe);
-        }
-        iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+        playTrack(track);
       });
 
       ulList.appendChild(li);
@@ -353,16 +343,7 @@ const renderTopTracksList = (tracks) => {
     li.appendChild(icon);
 
     icon.addEventListener('click', () => {
-      let iframe = audioPlayer.querySelector('iframe');
-      if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.width = '500';
-        iframe.height = '80';
-        iframe.frameBorder = '0';
-        iframe.allow = 'encrypted-media';
-        audioPlayer.appendChild(iframe);
-      }
-      iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+      playTrack(track);
     });
     img.addEventListener('click', () => {
       renderDescriptionTrack(track);
@@ -545,16 +526,7 @@ const renderAlbumPopup = async (album) => {
 
       playBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        let iframe = audioPlayer.querySelector('iframe');
-        if (!iframe) {
-          iframe = document.createElement('iframe');
-          iframe.width = '500';
-          iframe.height = '80';
-          iframe.frameBorder = '0';
-          iframe.allow = 'encrypted-media';
-          audioPlayer.appendChild(iframe);
-        }
-        iframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+        playTrack(track);
       });
 
       li.appendChild(playBtn);
