@@ -1,4 +1,3 @@
-import { API_URL } from './config.js';
 import {
   getImagePath,
   getPlaylistById,
@@ -12,47 +11,13 @@ import {
   showToast,
 } from './helpers.js';
 import { playTrack } from './services/player.service.js';
-
-const APIController = function () {
-  const getToken = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/token`);
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data.token;
-    } catch (err) {
-      console.error(`Token dowload error`, err);
-    }
-  };
-
-  const getTopTracks = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/top-tracks`);
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data.tracks;
-    } catch (err) {
-      console.error(`Top tracks download error`, err);
-    }
-  };
-
-  return {
-    getToken,
-    getTopTracks,
-  };
-};
-
-const api = APIController();
+import { getTopTracks } from './services/api.service.js';
 
 let tracks = [];
 
 async function loadData() {
   try {
-    tracks = await api.getTopTracks();
+    tracks = await getTopTracks();
   } catch (err) {
     console.error('Error', err);
   }

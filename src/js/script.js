@@ -3,7 +3,6 @@ const topTracks = document.querySelector('#top-tracks');
 const searchInput = document.querySelector('#searchInput');
 const searchResults = document.querySelector('#searchResults');
 const createPlaylistBtn = document.querySelector('#createPlaylistBtn');
-import { API_URL } from './config.js';
 import {
   loadPlaylists,
   createPlaylist,
@@ -11,6 +10,12 @@ import {
   showToast,
 } from './helpers.js';
 import { playTrack } from './services/player.service.js';
+import {
+  getToken,
+  getAlbumTracks,
+  getAlbums,
+  getTopTracks,
+} from './services/api.service.js';
 
 let albums = [];
 let tracks = [];
@@ -32,112 +37,23 @@ function getImagePath(filename) {
   return `/images/${filename}`;
 }
 
-const APIController = function () {
-  const getToken = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/token`);
-
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-
-      return data.token;
-    } catch (err) {
-      console.error('Failed to retrieve token', err);
-    }
-  };
-
-  const getTopTracks = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/top-tracks`);
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-
-      return data.tracks;
-    } catch (err) {
-      console.error(`Top tracks download error`, err);
-    }
-  };
-
-  const getTrack = async (token, trackUrl) => {
-    try {
-      const res = await fetch(trackUrl, {
-        headers: { Authorization: 'Bearer ' + token },
-      });
-      if (!res) {
-        throw new Error(`${res.status} ${res.statusText}`);
-      }
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(`Tracks download error`, err);
-    }
-  };
-
-  const getAlbums = async () => {
-    try {
-      const response = await fetch(`${API_URL}/api/albums`);
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data.albums;
-    } catch (err) {
-      console.error(`Albmus download error`, err);
-    }
-  };
-
-  const getAlbumTracks = async (albumId) => {
-    try {
-      const response = await fetch(`${API_URL}/api/album/${albumId}/tracks`);
-      if (!response) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      return data.tracks;
-    } catch (err) {
-      console.error(`Album tracks download error`, err);
-    }
-  };
-
-  return {
-    getToken,
-    getTopTracks,
-    getTrack,
-    getAlbums,
-    getAlbumTracks,
-  };
-};
-
-const api = APIController();
 let token;
-
-async function fetchTopTracks() {
-  try {
-    const tracks = await api.getTopTracks();
-    return tracks;
-  } catch (error) {
-    return [];
-  }
-}
 
 async function init() {
   await requestNotification();
-  token = await api.getToken();
-  albums = await api.getAlbums();
+
+  token = await getToken();
+  albums = await getAlbums();
+  tracks = await getTopTracks();
 
   if (category) {
     renderAlbumsList(albums);
   }
 
-  tracks = await fetchTopTracks();
-
   if (topTracks) {
     renderTopTracksList(tracks);
   }
+
   loadPlaylists();
   loadLibrary();
 }
@@ -304,9 +220,6 @@ const renderAlbumsList = (albums) => {
     li.appendChild(title);
 
     li.addEventListener('click', async () => {
-      // const tracks = await api.getAlbumTracks(album.id);
-      // renderTopTracksList(tracks);
-      // renderAlbumPopup({ ...album, tracks });
       renderAlbumPopup(album);
     });
 
@@ -510,7 +423,8 @@ const renderAlbumPopup = async (album) => {
   albumContent.appendChild(artist);
 
   try {
-    const tracks = await api.getAlbumTracks(album.id);
+    const tracks = await getAlbumTracks(album.id);
+    // const tracks = await api.getAlbumTracks(album.id);
     if (!tracks || !Array.isArray(tracks)) return;
 
     const ulList = document.createElement('ul');
