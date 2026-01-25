@@ -2,8 +2,10 @@
 
 #search {
   .search-header {
+    max-width: 20%;
+    min-width: 200px;
     position: relative;
-    margin: $spacing-lg;
+    margin: $spacing-lg auto;
     border-radius: 11px;
     border: 1px solid $text-muted;
 

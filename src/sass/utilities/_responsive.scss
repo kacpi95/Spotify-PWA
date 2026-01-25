@@ -35,9 +35,17 @@
     width: 8vw;
     min-width: 80px;
 
-    .nav ul li {
+    .nav ul {
       flex-direction: column;
-      text-align: center;
+      gap: 1rem;
+      li {
+        flex-direction: column;
+        text-align: center;
+        a {
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+      }
     }
 
     .desktop img {

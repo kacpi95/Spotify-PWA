@@ -32,19 +32,15 @@
     list-style: none;
 
     li {
-      display: flex;
-      gap: 0.8rem;
-      align-items: center;
-      font-size: 1rem;
-
       a {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1rem;
+        // gap: 8px;
         color: $text-muted;
         text-decoration: none;
         transition: color $transition-normal;
-
-        &:hover {
-          color: $hover-color;
-        }
       }
 
       i {
@@ -52,6 +48,12 @@
         text-align: center;
         font-size: 1.2rem;
         color: $text-muted;
+      }
+      &:hover {
+        color: $hover-color;
+        i {
+          color: $hover-color;
+        }
       }
     }
   }
