@@ -5,7 +5,7 @@ export function playTrack(track) {
   let iframe = audioPlayer.querySelector('iframe');
   if (!iframe) {
     iframe = document.createElement('iframe');
-    iframe.width = '500';
+    iframe.width = '350';
     iframe.height = '80';
     iframe.frameBorder = '0';
     iframe.allow = 'encrypted-media';

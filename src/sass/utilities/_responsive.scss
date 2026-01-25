@@ -1,115 +1,337 @@
+@media (max-width: 1024px) {
+  .playlist-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .playlist-image-container {
+      width: 180px;
+      height: 180px;
+    }
+
+    .playlist-info {
+      text-align: center;
+
+      .editable-title {
+        font-size: 2.2rem;
+      }
+    }
+  }
+
+  .playlist-actions {
+    justify-content: center;
+  }
+
+  .playlist-tracks-container {
+    .playlist-tracks-header,
+    .playlist-track-row {
+      grid-template-columns: 30px 3fr 2fr 30px;
+    }
+  }
+}
+
 @media (max-width: 768px) {
-	.header {
-		width: 8vw;
-		min-width: 80px;
+  .header {
+    width: 8vw;
+    min-width: 80px;
 
-		.nav ul li {
-			flex-direction: column;
-			text-align: center;
-		}
+    .nav ul li {
+      flex-direction: column;
+      text-align: center;
+    }
 
-		.desktop img {
-			display: none;
-		}
+    .desktop img {
+      display: none;
+    }
 
-		.mobile {
-			display: block;
-			margin: 0 auto 20px auto;
-			width: 30px;
-			height: 30px;
-			background-image: url("../../images/spotiBlack-small-icon.png");
-			background-size: contain;
-			background-repeat: no-repeat;
-			background-position: center;
-		}
-	}
+    .mobile {
+      display: block;
+      margin: 0 auto 20px auto;
+      width: 30px;
+      height: 30px;
+      background-image: url('../../images/spotiBlack-small-icon.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
 
-	.player {
-		width: calc(100% - 80px);
-		margin-left: 80px;
-	}
+  #search .search-header input {
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+  }
 
-	#search .search-header input {
-		padding: 0.8rem 2.5rem 0.8rem 1rem;
-	}
+  .track-content {
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: 95%;
+    max-width: 400px;
 
-	.track-content {
-		grid-template-columns: 1fr;
-		gap: 0;
-		width: 95%;
-		max-width: 400px;
+    img {
+      width: 100%;
+      height: auto;
+    }
 
-		img {
-			width: 100%;
-			height: auto;
-		}
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
 
-		h2 {
-			font-size: 1.8rem;
-		}
-	}
+  .track-text-content {
+    padding: 24px;
+    text-align: center;
+    align-items: center;
+  }
+  .playlist-header {
+    gap: 16px;
 
-	.track-text-content {
-		padding: 24px;
-		text-align: center;
-		align-items: center;
-	}
+    .playlist-image-container {
+      width: 150px;
+      height: 150px;
+    }
+
+    .playlist-info {
+      .editable-title {
+        font-size: 1.8rem;
+      }
+
+      .playlist-meta {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  .playlists-section {
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+
+    .playlists-header {
+      display: none;
+    }
+
+    .playlist-item a {
+      justify-content: center;
+      padding: 8px;
+
+      span {
+        display: none;
+      }
+
+      i {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  .playlist-tracks-container {
+    .playlist-tracks-header,
+    .playlist-track-row {
+      grid-template-columns: 24px 2fr 2fr 24px;
+      padding: 6px 12px;
+      gap: 8px;
+
+      .track-info {
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        .track-name {
+          font-size: 0.85rem;
+        }
+
+        .track-artist {
+          font-size: 0.75rem;
+        }
+      }
+
+      .track-album-name {
+        font-size: 0.75rem;
+      }
+    }
+  }
+  .app-footer p {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 600px) {
-	.album-content {
-		width: 95%;
-		max-width: 100%;
+  .album-content {
+    width: 95%;
+    max-width: 100%;
 
-		> img {
-			max-width: 220px;
-			margin-top: 40px;
-		}
+    > img {
+      max-width: 220px;
+      margin-top: 40px;
+    }
 
-		h2 {
-			font-size: 1.5rem;
-		}
+    h2 {
+      font-size: 1.5rem;
+    }
 
-		h4 {
-			font-size: 1rem;
-		}
+    h4 {
+      font-size: 1rem;
+    }
 
-		ul li {
-			font-size: 0.9rem;
-			padding: 12px 16px;
+    ul li {
+      font-size: 0.9rem;
+      padding: 12px 16px;
 
-			img {
-				width: 24px;
-				height: 24px;
-			}
-		}
-	}
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 
-	#search {
-		.search-album,
-		.search-track {
-			width: 80px;
+  #search {
+    .search-album,
+    .search-track {
+      width: 80px;
 
-			img {
-				width: 60px;
-				height: 60px;
-			}
+      img {
+        width: 60px;
+        height: 60px;
+      }
 
-			span {
-				font-size: 0.7rem;
-			}
-		}
-	}
+      span {
+        font-size: 0.7rem;
+      }
+    }
+  }
 }
 
 @media (max-width: 480px) {
-	.player {
-		audio {
-			width: 220px;
-		}
+  .header {
+    width: 64px;
+    min-width: 64px;
+    padding: 8px;
 
-		.player-info {
-			font-size: 0.8rem;
-		}
-	}
+    .logo {
+      margin-bottom: 12px;
+    }
+
+    .nav ul {
+      gap: 1rem;
+    }
+
+    .playlists-section {
+      flex: 1;
+      overflow-y: auto;
+
+      .playlist-item a {
+        padding: 6px;
+      }
+    }
+  }
+  .player {
+    width: 90%;
+    max-width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
+  }
+
+  .player-info {
+    font-size: 0.8rem;
+  }
+
+  audio {
+    width: 100%;
+  }
+  .playlist-header {
+    .playlist-image-container {
+      width: 120px;
+      height: 120px;
+    }
+
+    .playlist-info {
+      .editable-title {
+        font-size: 1.5rem;
+      }
+
+      .editable-description {
+        font-size: 0.75rem;
+      }
+
+      .playlist-meta {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .playlist-actions {
+    flex-direction: column;
+    gap: 12px;
+
+    .btn-play-all {
+      width: 48px;
+      height: 48px;
+      font-size: 1.2rem;
+    }
+  }
+
+  .playlist-tracks-container {
+    .playlist-tracks-header {
+      display: none;
+    }
+
+    .playlist-track-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 8px;
+      .track-info {
+        img {
+          width: 32px;
+          height: 32px;
+        }
+
+        .track-name {
+          font-size: 0.85rem;
+        }
+
+        .track-artist {
+          font-size: 0.75rem;
+        }
+      }
+
+      .track-album-name {
+        display: none;
+      }
+
+      .track-number {
+        display: none;
+      }
+    }
+  }
+
+  .playlist-search {
+    margin: 12px 0;
+
+    input {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+  }
+
+  .search-result-item {
+    grid-template-columns: 40px 1fr auto;
+    gap: 8px;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .search-result-name {
+      font-size: 0.85rem;
+    }
+
+    .search-result-artist {
+      font-size: 0.75rem;
+    }
+  }
+  .app-footer p {
+    padding: 8px;
+    font-size: 0.75rem;
+  }
 }
