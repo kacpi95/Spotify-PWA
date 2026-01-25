@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx concurrently \"npm run sass\" \"npm run server\"",
+    "dev": "npx concurrently \"npm run sass\" \"npm run start\"",
     "sass": "sass --watch src/sass:src/css",
-    "server": "node server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
