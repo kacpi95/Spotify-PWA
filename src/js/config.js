@@ -1,4 +1,4 @@
 export const API_URL =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3000'
-    : 'https://spotify-netlify';
+    : 'https://spotify-pwa.onrender.com';
