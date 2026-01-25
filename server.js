@@ -6,6 +6,13 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 
 const app = express();
+const __dirnameResolved = path.resolve();
+
+app.use(express.static(path.join(__dirnameResolved, 'src')));
+
+app.use(cors());
+app.use(express.json());
+
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -20,9 +27,7 @@ const tokenLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(globalLimiter);
-app.use(cors());
-app.use(express.json());
+app.use('/api', globalLimiter);
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -30,8 +35,6 @@ const clientSecret = process.env.CLIENT_SECRET;
 if (!clientId || !clientSecret) {
   console.error('Missing Spotify .env. Set CLIENT_ID and CLIENT_SECRET');
 }
-
-app.use(express.static(path.join(__dirname, 'src')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'index.html'));
