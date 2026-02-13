@@ -97,8 +97,8 @@ Built with **vanilla JavaScript, HTML, SCSS**, and a **Node.js/Express** backend
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/kacpi95/Spotify-PWA.git
-cd Spotify-PWA
+git clone https://github.com/kacpi95/music-streaming-pwa.git
+cd music-streaming-pwa
 ```
 
 ### 2. Install dependencies
